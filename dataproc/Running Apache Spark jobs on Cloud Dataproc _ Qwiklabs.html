@@ -1,0 +1,1629 @@
+<!DOCTYPE html>
+<!-- saved from url=(0071)https://googlecoursera.qwiklabs.com/focuses/14535056?parent=lti_session -->
+<html lang="en" class="mdl-js"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Running Apache Spark jobs on Cloud Dataproc | Qwiklabs</title>
+<script type="text/javascript" id="www-widgetapi-script" src="./Running Apache Spark jobs on Cloud Dataproc _ Qwiklabs_files/www-widgetapi.js.download" async=""></script><script type="text/javascript" async="" src="./Running Apache Spark jobs on Cloud Dataproc _ Qwiklabs_files/iframe_api"></script><script type="text/javascript" async="" src="./Running Apache Spark jobs on Cloud Dataproc _ Qwiklabs_files/js"></script><script type="text/javascript" async="" src="./Running Apache Spark jobs on Cloud Dataproc _ Qwiklabs_files/analytics.js.download"></script><script type="text/javascript" async="" src="./Running Apache Spark jobs on Cloud Dataproc _ Qwiklabs_files/js(1)"></script><script type="text/javascript" async="" src="./Running Apache Spark jobs on Cloud Dataproc _ Qwiklabs_files/recaptcha__en.js.download" crossorigin="anonymous" integrity="sha384-EybSWcHgiPeEiW8PyVFCqH8ltF5BJVYLCCHJpTp2QsYs58TZJuGZOUGfGAPF4IjR"></script><script type="text/javascript" async="" src="./Running Apache Spark jobs on Cloud Dataproc _ Qwiklabs_files/analytics.min.js.download"></script><script type="text/javascript" async="" src="./Running Apache Spark jobs on Cloud Dataproc _ Qwiklabs_files/recaptcha__en.js.download" crossorigin="anonymous" integrity="sha384-EybSWcHgiPeEiW8PyVFCqH8ltF5BJVYLCCHJpTp2QsYs58TZJuGZOUGfGAPF4IjR"></script><script async="" src="./Running Apache Spark jobs on Cloud Dataproc _ Qwiklabs_files/gtm.js.download"></script><script>
+//<![CDATA[
+window.gon={};gon.current_user={"firstname":"Pankaj","lastname":"Goyal","fullname":"Pankaj Goyal","company":"Coursera","email":"pankaj.goyal@calsoftinc.com","origin":"googlecoursera-run, lti-coursera","subscriptions":0,"id":"68b1f62edf2b424ad9af3b65e1849631","qlCreatedAt":"2021-01-07 07:57:16 UTC","optIn":null,"current_organization_id":null,"current_organization_role":null};gon.segment="j4Im8pqIko0Lxq4wVVZWMPMM0EroHUvb";gon.deployment="googlecoursera-run";gon.content={"type":"Lab","id":2120,"name":"Running Apache Spark jobs on Cloud Dataproc"};
+//]]>
+</script>
+<script>
+  dataLayer = [
+    {user: gon.current_user},
+    {content: gon.content}
+  ];
+</script>
+<script>
+  (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+  new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+  j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+  'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+  })(window,document,'script','dataLayer',"GTM-TQR88QK");
+</script>
+<script>
+  EVENT_SOURCE_BASE_URL = "https://googlecoursera-run.qwiklabs.com/nchan-sub?id=";
+</script>
+<script src="./Running Apache Spark jobs on Cloud Dataproc _ Qwiklabs_files/webcomponents-loader-408088dc333247a761de5f2b2a4ba1cabd2bc36579f83ba92a559eb3682a9b77.js.download"></script>
+<script src="./Running Apache Spark jobs on Cloud Dataproc _ Qwiklabs_files/vendor-45d462772c30000424907184f70c7157e95fb6227698d1671c5051818a6f60d8.js.download"></script>
+<script src="./Running Apache Spark jobs on Cloud Dataproc _ Qwiklabs_files/application-4920eac3ac3dd22ea1f733628486b64b565cc473b8615f62078c268a7076bc1f.js.download"></script>
+<script src="./Running Apache Spark jobs on Cloud Dataproc _ Qwiklabs_files/hallofmirrors-80fc5eb3e6343e5dc0189b3ab686c347c4e64d1a1c10c7da328e45c1f6f46497.js.download"></script>
+<custom-style>
+  <style is="custom-style">[hidden] {
+  display: none !important;
+}
+
+</style>
+</custom-style>
+<custom-style>
+  <style is="custom-style">html {
+  --layout_-_display:  flex;;
+
+      --layout-inline_-_display:  inline-flex;;
+
+      --layout-horizontal_-_display:  var(--layout_-_display); --layout-horizontal_-_-ms-flex-direction:  row; --layout-horizontal_-_-webkit-flex-direction:  row; --layout-horizontal_-_flex-direction:  row;;
+
+      --layout-horizontal-reverse_-_display:  var(--layout_-_display); --layout-horizontal-reverse_-_-ms-flex-direction:  row-reverse; --layout-horizontal-reverse_-_-webkit-flex-direction:  row-reverse; --layout-horizontal-reverse_-_flex-direction:  row-reverse;;
+
+      --layout-vertical_-_display:  var(--layout_-_display); --layout-vertical_-_-ms-flex-direction:  column; --layout-vertical_-_-webkit-flex-direction:  column; --layout-vertical_-_flex-direction:  column;;
+
+      --layout-vertical-reverse_-_display:  var(--layout_-_display); --layout-vertical-reverse_-_-ms-flex-direction:  column-reverse; --layout-vertical-reverse_-_-webkit-flex-direction:  column-reverse; --layout-vertical-reverse_-_flex-direction:  column-reverse;;
+
+      --layout-wrap_-_-ms-flex-wrap:  wrap; --layout-wrap_-_-webkit-flex-wrap:  wrap; --layout-wrap_-_flex-wrap:  wrap;;
+
+      --layout-wrap-reverse_-_-ms-flex-wrap:  wrap-reverse; --layout-wrap-reverse_-_-webkit-flex-wrap:  wrap-reverse; --layout-wrap-reverse_-_flex-wrap:  wrap-reverse;;
+
+      --layout-flex-auto_-_-ms-flex:  1 1 auto; --layout-flex-auto_-_-webkit-flex:  1 1 auto; --layout-flex-auto_-_flex:  1 1 auto;;
+
+      --layout-flex-none_-_-ms-flex:  none; --layout-flex-none_-_-webkit-flex:  none; --layout-flex-none_-_flex:  none;;
+
+      --layout-flex_-_-ms-flex:  1 1 0.000000001px; --layout-flex_-_-webkit-flex:  1; --layout-flex_-_flex:  1; --layout-flex_-_-webkit-flex-basis:  0.000000001px; --layout-flex_-_flex-basis:  0.000000001px;;
+
+      --layout-flex-2_-_-ms-flex:  2; --layout-flex-2_-_-webkit-flex:  2; --layout-flex-2_-_flex:  2;;
+
+      --layout-flex-3_-_-ms-flex:  3; --layout-flex-3_-_-webkit-flex:  3; --layout-flex-3_-_flex:  3;;
+
+      --layout-flex-4_-_-ms-flex:  4; --layout-flex-4_-_-webkit-flex:  4; --layout-flex-4_-_flex:  4;;
+
+      --layout-flex-5_-_-ms-flex:  5; --layout-flex-5_-_-webkit-flex:  5; --layout-flex-5_-_flex:  5;;
+
+      --layout-flex-6_-_-ms-flex:  6; --layout-flex-6_-_-webkit-flex:  6; --layout-flex-6_-_flex:  6;;
+
+      --layout-flex-7_-_-ms-flex:  7; --layout-flex-7_-_-webkit-flex:  7; --layout-flex-7_-_flex:  7;;
+
+      --layout-flex-8_-_-ms-flex:  8; --layout-flex-8_-_-webkit-flex:  8; --layout-flex-8_-_flex:  8;;
+
+      --layout-flex-9_-_-ms-flex:  9; --layout-flex-9_-_-webkit-flex:  9; --layout-flex-9_-_flex:  9;;
+
+      --layout-flex-10_-_-ms-flex:  10; --layout-flex-10_-_-webkit-flex:  10; --layout-flex-10_-_flex:  10;;
+
+      --layout-flex-11_-_-ms-flex:  11; --layout-flex-11_-_-webkit-flex:  11; --layout-flex-11_-_flex:  11;;
+
+      --layout-flex-12_-_-ms-flex:  12; --layout-flex-12_-_-webkit-flex:  12; --layout-flex-12_-_flex:  12;;
+
+      
+
+      --layout-start_-_-ms-flex-align:  start; --layout-start_-_-webkit-align-items:  flex-start; --layout-start_-_align-items:  flex-start;;
+
+      --layout-center_-_-ms-flex-align:  center; --layout-center_-_-webkit-align-items:  center; --layout-center_-_align-items:  center;;
+
+      --layout-end_-_-ms-flex-align:  end; --layout-end_-_-webkit-align-items:  flex-end; --layout-end_-_align-items:  flex-end;;
+
+      --layout-baseline_-_-ms-flex-align:  baseline; --layout-baseline_-_-webkit-align-items:  baseline; --layout-baseline_-_align-items:  baseline;;
+
+      
+
+      --layout-start-justified_-_-ms-flex-pack:  start; --layout-start-justified_-_-webkit-justify-content:  flex-start; --layout-start-justified_-_justify-content:  flex-start;;
+
+      --layout-center-justified_-_-ms-flex-pack:  center; --layout-center-justified_-_-webkit-justify-content:  center; --layout-center-justified_-_justify-content:  center;;
+
+      --layout-end-justified_-_-ms-flex-pack:  end; --layout-end-justified_-_-webkit-justify-content:  flex-end; --layout-end-justified_-_justify-content:  flex-end;;
+
+      --layout-around-justified_-_-ms-flex-pack:  distribute; --layout-around-justified_-_-webkit-justify-content:  space-around; --layout-around-justified_-_justify-content:  space-around;;
+
+      --layout-justified_-_-ms-flex-pack:  justify; --layout-justified_-_-webkit-justify-content:  space-between; --layout-justified_-_justify-content:  space-between;;
+
+      --layout-center-center_-_-ms-flex-align:  var(--layout-center_-_-ms-flex-align); --layout-center-center_-_-webkit-align-items:  var(--layout-center_-_-webkit-align-items); --layout-center-center_-_align-items:  var(--layout-center_-_align-items); --layout-center-center_-_-ms-flex-pack:  var(--layout-center-justified_-_-ms-flex-pack); --layout-center-center_-_-webkit-justify-content:  var(--layout-center-justified_-_-webkit-justify-content); --layout-center-center_-_justify-content:  var(--layout-center-justified_-_justify-content);;
+
+      
+
+      --layout-self-start_-_-ms-align-self:  flex-start; --layout-self-start_-_-webkit-align-self:  flex-start; --layout-self-start_-_align-self:  flex-start;;
+
+      --layout-self-center_-_-ms-align-self:  center; --layout-self-center_-_-webkit-align-self:  center; --layout-self-center_-_align-self:  center;;
+
+      --layout-self-end_-_-ms-align-self:  flex-end; --layout-self-end_-_-webkit-align-self:  flex-end; --layout-self-end_-_align-self:  flex-end;;
+
+      --layout-self-stretch_-_-ms-align-self:  stretch; --layout-self-stretch_-_-webkit-align-self:  stretch; --layout-self-stretch_-_align-self:  stretch;;
+
+      --layout-self-baseline_-_-ms-align-self:  baseline; --layout-self-baseline_-_-webkit-align-self:  baseline; --layout-self-baseline_-_align-self:  baseline;;
+
+      
+
+      --layout-start-aligned_-_-ms-flex-line-pack:  start; --layout-start-aligned_-_-ms-align-content:  flex-start; --layout-start-aligned_-_-webkit-align-content:  flex-start; --layout-start-aligned_-_align-content:  flex-start;;
+
+      --layout-end-aligned_-_-ms-flex-line-pack:  end; --layout-end-aligned_-_-ms-align-content:  flex-end; --layout-end-aligned_-_-webkit-align-content:  flex-end; --layout-end-aligned_-_align-content:  flex-end;;
+
+      --layout-center-aligned_-_-ms-flex-line-pack:  center; --layout-center-aligned_-_-ms-align-content:  center; --layout-center-aligned_-_-webkit-align-content:  center; --layout-center-aligned_-_align-content:  center;;
+
+      --layout-between-aligned_-_-ms-flex-line-pack:  justify; --layout-between-aligned_-_-ms-align-content:  space-between; --layout-between-aligned_-_-webkit-align-content:  space-between; --layout-between-aligned_-_align-content:  space-between;;
+
+      --layout-around-aligned_-_-ms-flex-line-pack:  distribute; --layout-around-aligned_-_-ms-align-content:  space-around; --layout-around-aligned_-_-webkit-align-content:  space-around; --layout-around-aligned_-_align-content:  space-around;;
+
+      
+
+      --layout-block_-_display:  block;;
+
+      --layout-invisible_-_visibility:  hidden !important;;
+
+      --layout-relative_-_position:  relative;;
+
+      --layout-fit_-_position:  absolute; --layout-fit_-_top:  0; --layout-fit_-_right:  0; --layout-fit_-_bottom:  0; --layout-fit_-_left:  0;;
+
+      --layout-scroll_-_-webkit-overflow-scrolling:  touch; --layout-scroll_-_overflow:  auto;;
+
+      --layout-fullbleed_-_margin:  0; --layout-fullbleed_-_height:  100vh;;
+
+      
+
+      --layout-fixed-top_-_position:  fixed; --layout-fixed-top_-_top:  0; --layout-fixed-top_-_left:  0; --layout-fixed-top_-_right:  0;;
+
+      --layout-fixed-right_-_position:  fixed; --layout-fixed-right_-_top:  0; --layout-fixed-right_-_right:  0; --layout-fixed-right_-_bottom:  0;;
+
+      --layout-fixed-bottom_-_position:  fixed; --layout-fixed-bottom_-_right:  0; --layout-fixed-bottom_-_bottom:  0; --layout-fixed-bottom_-_left:  0;;
+
+      --layout-fixed-left_-_position:  fixed; --layout-fixed-left_-_top:  0; --layout-fixed-left_-_bottom:  0; --layout-fixed-left_-_left:  0;;
+}
+
+</style>
+</custom-style><style>[hidden] { display: none !important; }</style><custom-style>
+  <style is="custom-style">html {
+  --google-red-100: #f4c7c3;
+      --google-red-300: #e67c73;
+      --google-red-500: #db4437;
+      --google-red-700: #c53929;
+
+      --google-blue-100: #c6dafc;
+      --google-blue-300: #7baaf7;
+      --google-blue-500: #4285f4;
+      --google-blue-700: #3367d6;
+
+      --google-green-100: #b7e1cd;
+      --google-green-300: #57bb8a;
+      --google-green-500: #0f9d58;
+      --google-green-700: #0b8043;
+
+      --google-yellow-100: #fce8b2;
+      --google-yellow-300: #f7cb4d;
+      --google-yellow-500: #f4b400;
+      --google-yellow-700: #f09300;
+
+      --google-grey-100: #f5f5f5;
+      --google-grey-300: #e0e0e0;
+      --google-grey-500: #9e9e9e;
+      --google-grey-700: #616161;
+
+      
+
+      --paper-red-50: #ffebee;
+      --paper-red-100: #ffcdd2;
+      --paper-red-200: #ef9a9a;
+      --paper-red-300: #e57373;
+      --paper-red-400: #ef5350;
+      --paper-red-500: #f44336;
+      --paper-red-600: #e53935;
+      --paper-red-700: #d32f2f;
+      --paper-red-800: #c62828;
+      --paper-red-900: #b71c1c;
+      --paper-red-a100: #ff8a80;
+      --paper-red-a200: #ff5252;
+      --paper-red-a400: #ff1744;
+      --paper-red-a700: #d50000;
+
+      --paper-pink-50: #fce4ec;
+      --paper-pink-100: #f8bbd0;
+      --paper-pink-200: #f48fb1;
+      --paper-pink-300: #f06292;
+      --paper-pink-400: #ec407a;
+      --paper-pink-500: #e91e63;
+      --paper-pink-600: #d81b60;
+      --paper-pink-700: #c2185b;
+      --paper-pink-800: #ad1457;
+      --paper-pink-900: #880e4f;
+      --paper-pink-a100: #ff80ab;
+      --paper-pink-a200: #ff4081;
+      --paper-pink-a400: #f50057;
+      --paper-pink-a700: #c51162;
+
+      --paper-purple-50: #f3e5f5;
+      --paper-purple-100: #e1bee7;
+      --paper-purple-200: #ce93d8;
+      --paper-purple-300: #ba68c8;
+      --paper-purple-400: #ab47bc;
+      --paper-purple-500: #9c27b0;
+      --paper-purple-600: #8e24aa;
+      --paper-purple-700: #7b1fa2;
+      --paper-purple-800: #6a1b9a;
+      --paper-purple-900: #4a148c;
+      --paper-purple-a100: #ea80fc;
+      --paper-purple-a200: #e040fb;
+      --paper-purple-a400: #d500f9;
+      --paper-purple-a700: #aa00ff;
+
+      --paper-deep-purple-50: #ede7f6;
+      --paper-deep-purple-100: #d1c4e9;
+      --paper-deep-purple-200: #b39ddb;
+      --paper-deep-purple-300: #9575cd;
+      --paper-deep-purple-400: #7e57c2;
+      --paper-deep-purple-500: #673ab7;
+      --paper-deep-purple-600: #5e35b1;
+      --paper-deep-purple-700: #512da8;
+      --paper-deep-purple-800: #4527a0;
+      --paper-deep-purple-900: #311b92;
+      --paper-deep-purple-a100: #b388ff;
+      --paper-deep-purple-a200: #7c4dff;
+      --paper-deep-purple-a400: #651fff;
+      --paper-deep-purple-a700: #6200ea;
+
+      --paper-indigo-50: #e8eaf6;
+      --paper-indigo-100: #c5cae9;
+      --paper-indigo-200: #9fa8da;
+      --paper-indigo-300: #7986cb;
+      --paper-indigo-400: #5c6bc0;
+      --paper-indigo-500: #3f51b5;
+      --paper-indigo-600: #3949ab;
+      --paper-indigo-700: #303f9f;
+      --paper-indigo-800: #283593;
+      --paper-indigo-900: #1a237e;
+      --paper-indigo-a100: #8c9eff;
+      --paper-indigo-a200: #536dfe;
+      --paper-indigo-a400: #3d5afe;
+      --paper-indigo-a700: #304ffe;
+
+      --paper-blue-50: #e3f2fd;
+      --paper-blue-100: #bbdefb;
+      --paper-blue-200: #90caf9;
+      --paper-blue-300: #64b5f6;
+      --paper-blue-400: #42a5f5;
+      --paper-blue-500: #2196f3;
+      --paper-blue-600: #1e88e5;
+      --paper-blue-700: #1976d2;
+      --paper-blue-800: #1565c0;
+      --paper-blue-900: #0d47a1;
+      --paper-blue-a100: #82b1ff;
+      --paper-blue-a200: #448aff;
+      --paper-blue-a400: #2979ff;
+      --paper-blue-a700: #2962ff;
+
+      --paper-light-blue-50: #e1f5fe;
+      --paper-light-blue-100: #b3e5fc;
+      --paper-light-blue-200: #81d4fa;
+      --paper-light-blue-300: #4fc3f7;
+      --paper-light-blue-400: #29b6f6;
+      --paper-light-blue-500: #03a9f4;
+      --paper-light-blue-600: #039be5;
+      --paper-light-blue-700: #0288d1;
+      --paper-light-blue-800: #0277bd;
+      --paper-light-blue-900: #01579b;
+      --paper-light-blue-a100: #80d8ff;
+      --paper-light-blue-a200: #40c4ff;
+      --paper-light-blue-a400: #00b0ff;
+      --paper-light-blue-a700: #0091ea;
+
+      --paper-cyan-50: #e0f7fa;
+      --paper-cyan-100: #b2ebf2;
+      --paper-cyan-200: #80deea;
+      --paper-cyan-300: #4dd0e1;
+      --paper-cyan-400: #26c6da;
+      --paper-cyan-500: #00bcd4;
+      --paper-cyan-600: #00acc1;
+      --paper-cyan-700: #0097a7;
+      --paper-cyan-800: #00838f;
+      --paper-cyan-900: #006064;
+      --paper-cyan-a100: #84ffff;
+      --paper-cyan-a200: #18ffff;
+      --paper-cyan-a400: #00e5ff;
+      --paper-cyan-a700: #00b8d4;
+
+      --paper-teal-50: #e0f2f1;
+      --paper-teal-100: #b2dfdb;
+      --paper-teal-200: #80cbc4;
+      --paper-teal-300: #4db6ac;
+      --paper-teal-400: #26a69a;
+      --paper-teal-500: #009688;
+      --paper-teal-600: #00897b;
+      --paper-teal-700: #00796b;
+      --paper-teal-800: #00695c;
+      --paper-teal-900: #004d40;
+      --paper-teal-a100: #a7ffeb;
+      --paper-teal-a200: #64ffda;
+      --paper-teal-a400: #1de9b6;
+      --paper-teal-a700: #00bfa5;
+
+      --paper-green-50: #e8f5e9;
+      --paper-green-100: #c8e6c9;
+      --paper-green-200: #a5d6a7;
+      --paper-green-300: #81c784;
+      --paper-green-400: #66bb6a;
+      --paper-green-500: #4caf50;
+      --paper-green-600: #43a047;
+      --paper-green-700: #388e3c;
+      --paper-green-800: #2e7d32;
+      --paper-green-900: #1b5e20;
+      --paper-green-a100: #b9f6ca;
+      --paper-green-a200: #69f0ae;
+      --paper-green-a400: #00e676;
+      --paper-green-a700: #00c853;
+
+      --paper-light-green-50: #f1f8e9;
+      --paper-light-green-100: #dcedc8;
+      --paper-light-green-200: #c5e1a5;
+      --paper-light-green-300: #aed581;
+      --paper-light-green-400: #9ccc65;
+      --paper-light-green-500: #8bc34a;
+      --paper-light-green-600: #7cb342;
+      --paper-light-green-700: #689f38;
+      --paper-light-green-800: #558b2f;
+      --paper-light-green-900: #33691e;
+      --paper-light-green-a100: #ccff90;
+      --paper-light-green-a200: #b2ff59;
+      --paper-light-green-a400: #76ff03;
+      --paper-light-green-a700: #64dd17;
+
+      --paper-lime-50: #f9fbe7;
+      --paper-lime-100: #f0f4c3;
+      --paper-lime-200: #e6ee9c;
+      --paper-lime-300: #dce775;
+      --paper-lime-400: #d4e157;
+      --paper-lime-500: #cddc39;
+      --paper-lime-600: #c0ca33;
+      --paper-lime-700: #afb42b;
+      --paper-lime-800: #9e9d24;
+      --paper-lime-900: #827717;
+      --paper-lime-a100: #f4ff81;
+      --paper-lime-a200: #eeff41;
+      --paper-lime-a400: #c6ff00;
+      --paper-lime-a700: #aeea00;
+
+      --paper-yellow-50: #fffde7;
+      --paper-yellow-100: #fff9c4;
+      --paper-yellow-200: #fff59d;
+      --paper-yellow-300: #fff176;
+      --paper-yellow-400: #ffee58;
+      --paper-yellow-500: #ffeb3b;
+      --paper-yellow-600: #fdd835;
+      --paper-yellow-700: #fbc02d;
+      --paper-yellow-800: #f9a825;
+      --paper-yellow-900: #f57f17;
+      --paper-yellow-a100: #ffff8d;
+      --paper-yellow-a200: #ffff00;
+      --paper-yellow-a400: #ffea00;
+      --paper-yellow-a700: #ffd600;
+
+      --paper-amber-50: #fff8e1;
+      --paper-amber-100: #ffecb3;
+      --paper-amber-200: #ffe082;
+      --paper-amber-300: #ffd54f;
+      --paper-amber-400: #ffca28;
+      --paper-amber-500: #ffc107;
+      --paper-amber-600: #ffb300;
+      --paper-amber-700: #ffa000;
+      --paper-amber-800: #ff8f00;
+      --paper-amber-900: #ff6f00;
+      --paper-amber-a100: #ffe57f;
+      --paper-amber-a200: #ffd740;
+      --paper-amber-a400: #ffc400;
+      --paper-amber-a700: #ffab00;
+
+      --paper-orange-50: #fff3e0;
+      --paper-orange-100: #ffe0b2;
+      --paper-orange-200: #ffcc80;
+      --paper-orange-300: #ffb74d;
+      --paper-orange-400: #ffa726;
+      --paper-orange-500: #ff9800;
+      --paper-orange-600: #fb8c00;
+      --paper-orange-700: #f57c00;
+      --paper-orange-800: #ef6c00;
+      --paper-orange-900: #e65100;
+      --paper-orange-a100: #ffd180;
+      --paper-orange-a200: #ffab40;
+      --paper-orange-a400: #ff9100;
+      --paper-orange-a700: #ff6500;
+
+      --paper-deep-orange-50: #fbe9e7;
+      --paper-deep-orange-100: #ffccbc;
+      --paper-deep-orange-200: #ffab91;
+      --paper-deep-orange-300: #ff8a65;
+      --paper-deep-orange-400: #ff7043;
+      --paper-deep-orange-500: #ff5722;
+      --paper-deep-orange-600: #f4511e;
+      --paper-deep-orange-700: #e64a19;
+      --paper-deep-orange-800: #d84315;
+      --paper-deep-orange-900: #bf360c;
+      --paper-deep-orange-a100: #ff9e80;
+      --paper-deep-orange-a200: #ff6e40;
+      --paper-deep-orange-a400: #ff3d00;
+      --paper-deep-orange-a700: #dd2c00;
+
+      --paper-brown-50: #efebe9;
+      --paper-brown-100: #d7ccc8;
+      --paper-brown-200: #bcaaa4;
+      --paper-brown-300: #a1887f;
+      --paper-brown-400: #8d6e63;
+      --paper-brown-500: #795548;
+      --paper-brown-600: #6d4c41;
+      --paper-brown-700: #5d4037;
+      --paper-brown-800: #4e342e;
+      --paper-brown-900: #3e2723;
+
+      --paper-grey-50: #fafafa;
+      --paper-grey-100: #f5f5f5;
+      --paper-grey-200: #eeeeee;
+      --paper-grey-300: #e0e0e0;
+      --paper-grey-400: #bdbdbd;
+      --paper-grey-500: #9e9e9e;
+      --paper-grey-600: #757575;
+      --paper-grey-700: #616161;
+      --paper-grey-800: #424242;
+      --paper-grey-900: #212121;
+
+      --paper-blue-grey-50: #eceff1;
+      --paper-blue-grey-100: #cfd8dc;
+      --paper-blue-grey-200: #b0bec5;
+      --paper-blue-grey-300: #90a4ae;
+      --paper-blue-grey-400: #78909c;
+      --paper-blue-grey-500: #607d8b;
+      --paper-blue-grey-600: #546e7a;
+      --paper-blue-grey-700: #455a64;
+      --paper-blue-grey-800: #37474f;
+      --paper-blue-grey-900: #263238;
+
+      
+      --dark-divider-opacity: 0.12;
+      --dark-disabled-opacity: 0.38; 
+      --dark-secondary-opacity: 0.54;
+      --dark-primary-opacity: 0.87;
+
+      
+      --light-divider-opacity: 0.12;
+      --light-disabled-opacity: 0.3; 
+      --light-secondary-opacity: 0.7;
+      --light-primary-opacity: 1.0;
+}
+
+</style>
+</custom-style><custom-style>
+  <style is="custom-style">html {
+  --primary-text-color: var(--light-theme-text-color);
+      --primary-background-color: var(--light-theme-background-color);
+      --secondary-text-color: var(--light-theme-secondary-color);
+      --disabled-text-color: var(--light-theme-disabled-color);
+      --divider-color: var(--light-theme-divider-color);
+      --error-color: var(--paper-deep-orange-a700);
+
+      
+      --primary-color: var(--paper-indigo-500);
+      --light-primary-color: var(--paper-indigo-100);
+      --dark-primary-color: var(--paper-indigo-700);
+
+      --accent-color: var(--paper-pink-a200);
+      --light-accent-color: var(--paper-pink-a100);
+      --dark-accent-color: var(--paper-pink-a400);
+
+
+      
+      --light-theme-background-color: #ffffff;
+      --light-theme-base-color: #000000;
+      --light-theme-text-color: var(--paper-grey-900);
+      --light-theme-secondary-color: #737373;  
+      --light-theme-disabled-color: #9b9b9b;  
+      --light-theme-divider-color: #dbdbdb;
+
+      
+      --dark-theme-background-color: var(--paper-grey-900);
+      --dark-theme-base-color: #ffffff;
+      --dark-theme-text-color: #ffffff;
+      --dark-theme-secondary-color: #bcbcbc;  
+      --dark-theme-disabled-color: #646464;  
+      --dark-theme-divider-color: #3c3c3c;
+
+      
+      --text-primary-color: var(--dark-theme-text-color);
+      --default-primary-color: var(--primary-color);
+}
+
+</style>
+</custom-style><script async="" src="./Running Apache Spark jobs on Cloud Dataproc _ Qwiklabs_files/lazy.min.js.download"></script><script src="./Running Apache Spark jobs on Cloud Dataproc _ Qwiklabs_files/loader.js.download"></script>
+<!--[if lt IE 9]>
+<script src='http://html5shim.googlecode.com/svn/trunk/html5.js' type='text/javascript'></script>
+<![endif]-->
+<!--[endif]>  <![endif]-->
+<script type="application/ld+json">
+{
+  "@context": "http://schema.org",
+  "@type": "WebSite",
+  "url": "https://www.qwiklabs.com/",
+  "potentialAction": {
+    "@type": "SearchAction",
+    "target": "https://www.qwiklabs.com/catalog?keywords={search_term_string}",
+    "query-input": "required name=search_term_string"
+  }
+}
+</script>
+<script id="ze-snippet" src="./Running Apache Spark jobs on Cloud Dataproc _ Qwiklabs_files/snippet.js.download"></script>
+
+
+<meta name="csrf-param" content="authenticity_token">
+<meta name="csrf-token" content="/fs2ttgXmh+4ZJaSlP355aaOXaIuvOjyMqeqp3q/RPllup5vW6bcjvCko6jCOPXOO+KxguRTNbKi4Wy94ixyaA==">
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=0" name="viewport">
+<meta content="1rRsY0INj8RvwB5EF5pwdxt2A2P9aDgAlsICaJ0d5w0" name="google-site-verification">
+<meta content="#3681E4" property="msapplication-TileColor">
+<meta content="/favicon-144.png" property="msapplication-TileImage">
+<meta content="[]" name="active-experiments">
+<meta content="{&quot;userId&quot;:4139526}" name="help-api-product-data">
+<meta content="This lab focuses on running Apache Spark jobs on Cloud Dataproc." name="description">
+<meta content="Qwiklabs" name="author">
+<meta content="Running Apache Spark jobs on Cloud Dataproc | Qwiklabs" property="og:title">
+<meta content="website" property="og:type">
+<meta content="/favicon-144.png" property="og:image">
+<meta content="Qwiklabs" property="og:site_name">
+<meta content="This lab focuses on running Apache Spark jobs on Cloud Dataproc." property="og:description">
+<meta content="/qwiklabs_logo_900x887.png" property="og:logo" size="900x887">
+<meta content="/qwiklabs_logo_994x187.png" property="og:logo" size="994x187">
+
+
+<link href="https://googlecoursera.qwiklabs.com/favicon-32.png" rel="shortcut icon">
+<link color="#3681E4" href="https://googlecoursera.qwiklabs.com/favicon-svg.svg" rel="mask-icon">
+<link href="https://googlecoursera.qwiklabs.com/favicon-180.png" rel="apple-touch-icon-precomposed">
+
+
+
+<link rel="stylesheet" media="screen" href="./Running Apache Spark jobs on Cloud Dataproc _ Qwiklabs_files/css">
+
+
+<link rel="stylesheet" media="all" href="./Running Apache Spark jobs on Cloud Dataproc _ Qwiklabs_files/application-c4e6f065d3e114428ce768f2176be8a0d24d665869e44b217bd252e1fdea9b5b.css">
+
+
+
+</head>
+<body class="lab-show l-full no-nav application-new focuses focuses-show lab-show l-full no-nav " data-new-gr-c-s-check-loaded="14.1001.0" data-gr-ext-installed="" data-new-gr-c-s-loaded="14.1001.0">
+<noscript>
+<iframe height='0' src='https://www.googletagmanager.com/ns.html?id=GTM-TQR88QK' style='display:none;visibility:hidden;' width='0'></iframe>
+</noscript>
+<span class="hidden" id="flash-sibling-before"></span>
+
+<div class="header-container">
+<div class="header">
+<ql-icon-button class="js-nav-toggle header__nav-panel-button l-mrm">menu</ql-icon-button>
+<div class="header__title">
+<a class="icon-button" href="https://www.coursera.org/"><ql-icon>arrow_back</ql-icon></a>
+
+<h1 class="headline-5">
+Running Apache Spark jobs on Cloud Dataproc
+</h1>
+</div>
+<div class="header__actions">
+<ql-icon-button class="header__button--search js-header-search-bar-button">search</ql-icon-button>
+<ql-icon-button id="control-panel-target" style="display: none;">
+dashboard
+</ql-icon-button>
+<ql-menu for="control-panel-target" id="control-panel-menu" style="left: -1000px; top: -1000px; opacity: 0; visibility: hidden;" role="menu" aria-labelledby="control-panel-target"></ql-menu>
+
+<ql-icon-button id="help-menu-button" tabindex="0">help</ql-icon-button>
+<div class="mdl-tooltip js-tooltip" data-mdl-for="help-menu-button" data-upgraded=",MaterialTooltip">
+Help
+</div>
+<ql-menu for="help-menu-button" id="help-menu" style="left: -1000px; top: -1000px; opacity: 0; visibility: hidden;" role="menu" aria-labelledby="help-menu-button">
+<ql-menu-item>
+<ql-help context="lab" data-analytics-action="opened_help" data-analytics-label="lab" productdata="{&quot;userId&quot;:4139526}">
+Help Center
+</ql-help>
+</ql-menu-item>
+<ql-menu-item>
+<a target="_blank" class="ql-body-1" href="https://support.google.com/qwiklabs/contact/contact_us" tabindex="-1" role="menuitem">Email support</a>
+</ql-menu-item>
+<ql-menu-item>
+<a class="ql-body-1" onclick="ql.chat.open()" tabindex="-1" role="menuitem">Chat support</a>
+</ql-menu-item>
+</ql-menu>
+
+<button class="icon-button" id="my_account" aria-haspopup="true" aria-controls="">
+<ql-avatar></ql-avatar>
+</button>
+<ql-menu for="my_account" open="" style="left: -1000px; top: -1000px; opacity: 0; visibility: hidden;" role="menu" aria-labelledby="my_account">
+<div class="my-account-menu">
+<ql-avatar class="l-mtl l-mbl" size="120"></ql-avatar>
+<div class="my-account-menu__user-info l-mbl">
+<h4 class="ql-subhead-1">Pankaj Goyal</h4>
+<p class="ql-body-2 text--light">pankaj.goyal@calsoftinc.com</p>
+<p class="ql-body-2 text--light">
+</p>
+<a class="text--green ql-subhead-2" href="https://googlecoursera.qwiklabs.com/my_account/payments"><ql-chip positive="">
+0 Credits
+</ql-chip>
+</a></div>
+<div class="buttons l-mbl">
+<a class="button button--hairline" id="settings" href="https://googlecoursera.qwiklabs.com/my_account/profile">Settings</a>
+</div>
+<hr>
+<ql-button data-analytics-action="clicked_sign_out" href="/users/sign_out" method="delete">
+Sign Out
+</ql-button>
+<div class="privacy l-mtl">
+<a class="ql-caption text--light" href="https://googlecoursera.qwiklabs.com/privacy_policy">Privacy</a>
+<span class="ql-caption text--light l-mls l-mrs">·</span>
+<a class="ql-caption text--light" href="https://googlecoursera.qwiklabs.com/terms_of_service">Terms</a>
+</div>
+</div>
+</ql-menu>
+
+</div>
+</div>
+<div class="header__search-bar js-header-search-bar">
+<form class="js-search-form-mobile" onsubmit="ql.searchFilter(); return false;" action="https://googlecoursera.qwiklabs.com/searches/elasticsearch" accept-charset="UTF-8" method="post"><input name="utf8" type="hidden" value="✓"><input type="hidden" name="authenticity_token" value="/fs2ttgXmh+4ZJaSlP355aaOXaIuvOjyMqeqp3q/RPllup5vW6bcjvCko6jCOPXOO+KxguRTNbKi4Wy94ixyaA==">
+<input type="text" name="keywords" id="keywords" placeholder="Search" maxlength="255" aria-label="catalog search bar">
+</form>
+
+<ql-icon-button class="js-close-search-bar">close</ql-icon-button>
+</div>
+</div>
+
+<nav class="nav-bar">
+<a class="nav-bar__item js-navigation-button" href="https://googlecoursera.qwiklabs.com/"><ql-icon class="nav-bar__item__icon">
+home
+</ql-icon>
+<span class="nav-bar__item__label">
+Home
+</span>
+</a>
+<a class="nav-bar__item js-navigation-button" href="https://googlecoursera.qwiklabs.com/catalog"><ql-icon class="nav-bar__item__icon">
+school
+</ql-icon>
+<span class="nav-bar__item__label">
+Catalog
+</span>
+</a>
+<a class="nav-bar__item js-navigation-button" href="https://googlecoursera.qwiklabs.com/my_learning"><ql-icon class="nav-bar__item__icon">
+event_note
+</ql-icon>
+<span class="nav-bar__item__label">
+My Learning
+</span>
+</a>
+</nav>
+
+<nav class="nav-panel js-nav-panel">
+<div class="nav-panel__logo">
+<div class="logo logo--blue"></div>
+</div>
+<a title="Home" tabindex="-1" class="nav-panel__item js-navigation-button" href="https://googlecoursera.qwiklabs.com/"><ql-icon class="nav-panel__item__icon">
+home
+</ql-icon>
+<div class="nav-panel__item__label">
+Home
+</div>
+</a>
+<a title="Catalog" tabindex="-1" class="nav-panel__item js-navigation-button" href="https://googlecoursera.qwiklabs.com/catalog"><ql-icon class="nav-panel__item__icon">
+school
+</ql-icon>
+<div class="nav-panel__item__label">
+Catalog
+</div>
+</a>
+<a title="My Learning" tabindex="-1" class="nav-panel__item js-navigation-button" href="https://googlecoursera.qwiklabs.com/my_learning"><ql-icon class="nav-panel__item__icon">
+event_note
+</ql-icon>
+<div class="nav-panel__item__label">
+My Learning
+</div>
+</a>
+<div class="nav-panel__spacer"></div>
+<a title="Profile" tabindex="-1" class="nav-panel__item js-navigation-button" href="https://googlecoursera.qwiklabs.com/my_account/profile"><ql-icon class="nav-panel__item__icon">
+account_circle
+</ql-icon>
+<div class="nav-panel__item__label">
+Profile
+</div>
+</a>
+<a title="Credits &amp; Subscriptions" tabindex="-1" class="nav-panel__item js-navigation-button" href="https://googlecoursera.qwiklabs.com/my_account/credits"><ql-icon class="nav-panel__item__icon">
+money
+</ql-icon>
+<div class="nav-panel__item__label">
+Credits &amp; Subscriptions
+</div>
+</a>
+<a title="Security" tabindex="-1" class="nav-panel__item js-navigation-button" href="https://googlecoursera.qwiklabs.com/my_account/security"><ql-icon class="nav-panel__item__icon">
+security
+</ql-icon>
+<div class="nav-panel__item__label">
+Security
+</div>
+</a>
+<div class="nav-panel__spacer"></div>
+<a class="nav-panel__item" tabindex="-1" href="https://googlecoursera.qwiklabs.com/focuses/14535056?parent=lti_session#"><ql-help>
+<div class="nav-panel__help-item">
+<ql-icon class="nav-panel__item__icon">help</ql-icon>
+<div class="nav-panel__item__label">
+Help
+</div>
+</div>
+</ql-help>
+</a><div class="nav-panel__small-links">
+<a tabindex="-1" href="https://googlecoursera.qwiklabs.com/privacy_policy">Privacy</a>
+<a tabindex="-1" href="https://googlecoursera.qwiklabs.com/terms_of_service">Terms</a>
+</div>
+</nav>
+<div class="nav-panel__overlay js-nav-toggle"></div>
+
+<main class="js-main">
+<div class="l-main-wrapper" id="main-wrapper">
+
+
+
+
+
+
+
+<ql-drawer-container class="js-lab-state" data-analytics-payload="{&quot;label&quot;:&quot;Running Apache Spark jobs on Cloud Dataproc&quot;,&quot;lab_name&quot;:&quot;Running Apache Spark jobs on Cloud Dataproc&quot;,&quot;classroom_name&quot;:null,&quot;deployment&quot;:&quot;googlecoursera-run&quot;}" data-focus-id="14535056" data-lab-billing-limit="0.0" data-lab-duration="5400" data-parent="lti_session" data-recaptcha-enabled="" id="lab-container">
+<ql-drawer id="terminal-drawer" slot="drawer" style="width: 896px;">
+<iframe class="terminal" id="embedded-resource" data-gtm-yt-inspected-1_25="true" src="./Running Apache Spark jobs on Cloud Dataproc _ Qwiklabs_files/saved_resource(1).html"></iframe>
+</ql-drawer>
+<ql-drawer-content class="js-lab-wrapper" id="lab-content" slot="drawer-content">
+<ql-drawer-container id="lab-content-container">
+<ql-drawer id="control-panel-drawer" open="" slot="drawer" width="320" style="width: 320px;">
+<ql-lab-control-panel class="ql-lab-control-panel__max-height control-panel js-lab-control-panel" connectionfiles="[]" labcontrolbutton="{&quot;disabled&quot;:false,&quot;pending&quot;:false,&quot;running&quot;:false}" labdetails="[]" labtimer="{&quot;ticking&quot;:false,&quot;secondsRemaining&quot;:5400}" studentresources="[]">
+<script src="./Running Apache Spark jobs on Cloud Dataproc _ Qwiklabs_files/api.js.download"></script>
+        <script>
+          // Define function so that we can call it again later if we need to reset it
+          // This executes reCAPTCHA and then calls our callback.
+          function executeRecaptchaForStartLab() {
+            grecaptcha.ready(function() {
+              grecaptcha.execute('6LeVI8IUAAAAAJNdox5eTkYrw9SbvhZ1TFyv3iHr', {action: 'start_lab'}).then(function(token) {
+                setInputWithRecaptchaResponseTokenForStartLab('g-recaptcha-response-data-start-lab', token)
+              });
+            });
+          };
+          // Invoke immediately
+          executeRecaptchaForStartLab()
+
+          // Async variant so you can await this function from another async function (no need for
+          // an explicit callback function then!)
+          // Returns a Promise that resolves with the response token.
+          async function executeRecaptchaForStartLabAsync() {
+            return new Promise((resolve, reject) => {
+              grecaptcha.ready(async function() {
+                resolve(await grecaptcha.execute('6LeVI8IUAAAAAJNdox5eTkYrw9SbvhZ1TFyv3iHr', {action: 'start_lab'}))
+              });
+            })
+          };
+
+                    var setInputWithRecaptchaResponseTokenForStartLab = function(id, token) {
+            var element = document.getElementById(id);
+            element.value = token;
+          }
+
+        </script>
+<input type="hidden" name="g-recaptcha-response-data[start_lab]" id="g-recaptcha-response-data-start-lab" data-sitekey="6LeVI8IUAAAAAJNdox5eTkYrw9SbvhZ1TFyv3iHr" class="g-recaptcha g-recaptcha-response " style="" value="03AGdBq26XB-Wl72rrX1uMxX371j9lMTv2Sprrz7SeeNlK6L-pRm1dtWS8eCfZjjS1rSx51PFz6pzLRK6ECqNPgYbfam79nie3JkJLtQB6qcLBeKyI7GuSO8QUca0iOOBp0Pq4SZSIxe8UJ69aT3DSkpmA7UUtGER3GuNmvJCzHnMFxj44KEbd5x-Hc2Sg_DxCgqbXETNiVDandTS031Ot4qLBMLjL-zrlyA1i4L-e4Xgzd5B2zyZAAWMdEAdKvvYaEMJYTqhVjejPeaZ-1CBho2xm2UvR-VeJo4rfub7e4lkMtJHHzJbj2bffU5OphXmj7Osd96AkN1vmOCaCwoIbJzY6DxCDVlDbCbb9qWt6drSWakzWv73VGORjZzuHHLIAaK_OdmVt9Xct5geTJk59WvvPgwUUS4dUOzRJNEBdHNkCbA3P8YGKoDxTCA-WTxALsxMtHhqB3pSE1CfDKOAWjlRk1AhIdH7HpA"><div style="width: 304px; height: 78px;"><div><iframe src="./Running Apache Spark jobs on Cloud Dataproc _ Qwiklabs_files/anchor.html" width="304" height="78" role="presentation" name="a-mieav1rjoo0u" frameborder="0" scrolling="no" sandbox="allow-forms allow-popups allow-same-origin allow-scripts allow-top-navigation allow-modals allow-popups-to-escape-sandbox" data-gtm-yt-inspected-1_25="true"></iframe></div><textarea id="g-recaptcha-response" name="g-recaptcha-response" class="g-recaptcha-response" style="width: 250px; height: 40px; border: 1px solid rgb(193, 193, 193); margin: 10px 25px; padding: 0px; resize: none; display: none;"></textarea></div></input>
+
+<div class="hidden" id="recaptcha-v2-start-lab" slot="recaptcha">
+<script src="./Running Apache Spark jobs on Cloud Dataproc _ Qwiklabs_files/api.js(1).download" async="" defer=""></script>
+<div data-sitekey="6LeOI8IUAAAAAPkHlMAE9NReCD_1WD81iYlBlCnV" data-callback="recaptchaComplete" data-expired-callback="expireV2Token" class="g-recaptcha "><div style="width: 304px; height: 78px;"><div><iframe src="./Running Apache Spark jobs on Cloud Dataproc _ Qwiklabs_files/anchor(1).html" width="304" height="78" role="presentation" name="a-tnj7j7bmztoo" frameborder="0" scrolling="no" sandbox="allow-forms allow-popups allow-same-origin allow-scripts allow-top-navigation allow-modals allow-popups-to-escape-sandbox" data-gtm-yt-inspected-1_25="true"></iframe></div><textarea id="g-recaptcha-response-1" name="g-recaptcha-response" class="g-recaptcha-response" style="width: 250px; height: 40px; border: 1px solid rgb(193, 193, 193); margin: 10px 25px; padding: 0px; resize: none; display: none;"></textarea></div><iframe data-gtm-yt-inspected-1_25="true" style="display: none;" src="./Running Apache Spark jobs on Cloud Dataproc _ Qwiklabs_files/saved_resource(2).html"></iframe></div>
+          <noscript>
+            <div>
+              <div style="width: 302px; height: 422px; position: relative;">
+                <div style="width: 302px; height: 422px; position: absolute;">
+                  <iframe
+                    src="https://www.recaptcha.net/recaptcha/api/fallback?k=6LeOI8IUAAAAAPkHlMAE9NReCD_1WD81iYlBlCnV"
+                    name="ReCAPTCHA"
+                    style="width: 302px; height: 422px; border-style: none; border: 0; overflow: hidden;">
+                  </iframe>
+                </div>
+              </div>
+              <div style="width: 300px; height: 60px; border-style: none;
+                bottom: 12px; left: 25px; margin: 0px; padding: 0px; right: 25px;
+                background: #f9f9f9; border: 1px solid #c1c1c1; border-radius: 3px;">
+                <textarea id="g-recaptcha-response" name="g-recaptcha-response"
+                  class="g-recaptcha-response"
+                  style="width: 250px; height: 40px; border: 1px solid #c1c1c1;
+                  margin: 10px 25px; padding: 0px; resize: none;">
+                </textarea>
+              </div>
+            </div>
+          </noscript>
+
+</div>
+</ql-lab-control-panel>
+</ql-drawer>
+<ql-drawer-content id="lab-instructions" slot="drawer-content">
+<div class="alert alert--fake js-alert">
+<p class="alert__message js-alert-message"></p>
+<a class="alert__close js-alert-close">
+<i class="fa fa-times"></i>
+</a>
+<iframe class="l-ie-iframe-fix" data-gtm-yt-inspected-1_25="true" src="./Running Apache Spark jobs on Cloud Dataproc _ Qwiklabs_files/saved_resource(3).html"></iframe>
+</div>
+<div class="js-lab-content lab-content__renderable-instructions">
+<div class="lab-preamble">
+<h1 class="lab-preamble__title">
+Running Apache Spark jobs on Cloud Dataproc
+</h1>
+<div class="lab-preamble__details subtitle-headline-1">
+<span>1 hour 30 minutes</span>
+<span>Free</span>
+<div class="lab__rating">
+<a href="https://googlecoursera.qwiklabs.com/focuses/14535056/reviews?parent=lti_session"><div class="rateit" data-rateit-readonly="true" data-rateit-value="4.2316"><div class="rateit-reset" style="display: none;"></div><div class="rateit-range" style="width: 80px; height: 16px;"><div class="rateit-selected" style="height: 16px; width: 67.7056px;"></div><div class="rateit-hover" style="height:16px"></div></div></div>
+
+</a><a data-target="#lab-review-modal" data-toggle="modal">
+Rate Lab
+</a>
+</div>
+</div>
+</div>
+
+<div class="js-markdown-instructions markdown-lab-instructions" id="markdown-lab-instructions">
+
+
+
+<h2 id="step1">Overview</h2>
+<p>In this lab you will learn how to how to migrate Apache Spark code to Cloud Dataproc. You will follow a sequence of steps progressively moving more of the job components over to GCP services:</p>
+<ul>
+<li>
+<p>Run original Spark code on Cloud Dataproc (Lift and Shift)</p>
+</li>
+<li>
+<p>Replace HDFS with Cloud Storage ( cloud-native)</p>
+</li>
+<li>
+<p>Automate everything so it runs on job-specific clusters ( cloud-optimized)</p>
+</li>
+</ul>
+<h2 id="step2">Objectives</h2>
+<p>In this lab you will learn how to:</p>
+<ul>
+<li>
+<p>Migrate existing Spark jobs to Cloud Dataproc</p>
+</li>
+<li>
+<p>Modify Spark jobs to use Cloud Storage instead of HDFS</p>
+</li>
+<li>
+<p>Optimize Spark jobs to run on Job specific clusters</p>
+</li>
+</ul>
+<h4>What will you use?</h4>
+<ul>
+<li>
+<p>Cloud Dataproc</p>
+</li>
+<li>
+<p>Apache Spark</p>
+</li>
+</ul>
+<h2 id="step3">Scenario</h2>
+<p>You are migrating an existing Spark workload to Cloud Dataproc and then progressively modifying the Spark code to make use of GCP native features and services.</p>
+<h2 id="step4">Lab setup</h2>
+<p>For each lab, you get a new GCP project and set of resources for a fixed time at no cost.</p>
+<ol>
+<li>
+<p>Make sure you signed into Qwiklabs using an <strong>incognito window</strong>.</p>
+</li>
+<li>
+<p>Note the lab's access time (for example, <img alt="img/time.png" src="./Running Apache Spark jobs on Cloud Dataproc _ Qwiklabs_files/aZQJ4BT7uCmM9XR6BTXgTRP1Hfu1T7q6V+cnbdEsbpU="> and make sure you can finish in that time block.</p>
+</li>
+</ol>
+<aside> <p>
+  There is no pause feature. You can restart if needed, but you have to start at the beginning.
+  </p>
+
+</aside>
+<ol start="3">
+<li>
+<p>When ready, click <img alt="img/start_lab.png" src="./Running Apache Spark jobs on Cloud Dataproc _ Qwiklabs_files/XE8x7uvQokyubNwnYKKc+vBBNrMlo5iNZiDDzQQ3Ddo=">.</p>
+</li>
+<li>
+<p>Note your lab credentials. You will use them to sign in to Cloud Platform Console.
+<img alt="img/open_google_console.png" src="./Running Apache Spark jobs on Cloud Dataproc _ Qwiklabs_files/0d78dhX6IVMVWmixCPPSBbmi5O2GPokCXf1Ps1AkTgI="></p>
+</li>
+<li>
+<p>Click <strong>Open Google Console</strong>.</p>
+</li>
+<li>
+<p>Click <strong>Use another account</strong> and copy/paste credentials for <strong>this</strong> lab into the prompts.</p>
+</li>
+</ol>
+<aside class="warning"><p>
+  If you use other credentials, you'll get errors or <strong>incur charges</strong>.
+  </p>
+</aside>
+<ol start="7">
+<li>Accept the terms and skip the recovery resource page.</li>
+</ol>
+<aside class="warning"><p>
+  Do not click <strong>End Lab</strong> unless you are finished with the lab or want to restart it. This clears your work and removes the project.
+  </p>
+</aside>
+
+<h3>Activate Google Cloud Shell</h3>
+<p>Google Cloud Shell is a virtual machine that is loaded with development tools. It offers a persistent 5GB home directory and runs on the Google Cloud.
+Google Cloud Shell provides command-line access to your GCP resources.</p>
+<ol>
+<li>
+<p>In GCP console, on the top right toolbar, click the Open Cloud Shell button.</p>
+<p><img alt="Cloud Shell icon" src="./Running Apache Spark jobs on Cloud Dataproc _ Qwiklabs_files/vdY5e_an9ZGXw5a_ZMb1agpXhRGozsOadHURcR8thAQ="></p>
+</li>
+<li>
+<p>Click <strong>Continue</strong>.
+<img alt="cloudshell_continue.png" src="./Running Apache Spark jobs on Cloud Dataproc _ Qwiklabs_files/lr3PBRjWIrJ+MQnE8kCkOnRQQVgJnWSg4UWk16f0s_A="></p>
+</li>
+</ol>
+<p>It takes a few moments to provision and connect to the environment. When you are connected, you are already authenticated, and the project is set to your <em>PROJECT_ID</em>. For example:</p>
+<p><img alt="Cloud Shell Terminal" src="./Running Apache Spark jobs on Cloud Dataproc _ Qwiklabs_files/hmMK0W41Txk+20bQyuDP9g60vCdBajIS+52iI2f4bYk="></p>
+<p><strong>gcloud</strong> is the command-line tool for Google Cloud Platform. It comes pre-installed on Cloud Shell and supports tab-completion.</p>
+<p>You can list the active account name with this command:</p>
+<pre><code>gcloud auth list
+</code><button class="button button--text button--small copy-button js-copy-button-0"><ql-icon>content_copy</ql-icon></button></pre>
+<p>Output:</p>
+<pre><code class="language-output prettyprint prettyprinted" style=""><span class="typ">Credentialed</span><span class="pln"> accounts</span><span class="pun">:</span><span class="pln">
+ </span><span class="pun">-</span><span class="pln"> </span><span class="str">&lt;myaccount&gt;</span><span class="pun">@&lt;</span><span class="pln">mydomain</span><span class="pun">&gt;.</span><span class="pln">com </span><span class="pun">(</span><span class="pln">active</span><span class="pun">)</span></code><button class="button button--text button--small copy-button js-copy-button-1"><ql-icon>content_copy</ql-icon></button></pre>
+<p>Example output:</p>
+<pre><code class="language-Output prettyprint prettyprinted" style=""><span class="typ">Credentialed</span><span class="pln"> accounts</span><span class="pun">:</span><span class="pln">
+ </span><span class="pun">-</span><span class="pln"> google1623327_student@qwiklabs</span><span class="pun">.</span><span class="pln">net</span></code><button class="button button--text button--small copy-button js-copy-button-2"><ql-icon>content_copy</ql-icon></button></pre>
+<p>You can list the project ID with this command:</p>
+<pre><code>gcloud config list project
+</code><button class="button button--text button--small copy-button js-copy-button-3" title="" data-original-title="Copied"><ql-icon>content_copy</ql-icon></button></pre>
+<p>Output:</p>
+<pre><code class="language-output prettyprint prettyprinted" style=""><span class="pun">[</span><span class="pln">core</span><span class="pun">]</span><span class="pln">
+project </span><span class="pun">=</span><span class="pln"> </span><span class="str">&lt;project_ID&gt;</span></code><button class="button button--text button--small copy-button js-copy-button-4"><ql-icon>content_copy</ql-icon></button></pre>
+<p>Example output:</p>
+<pre><code class="language-Output prettyprint prettyprinted" style=""><span class="pun">[</span><span class="pln">core</span><span class="pun">]</span><span class="pln">
+project </span><span class="pun">=</span><span class="pln"> qwiklabs</span><span class="pun">-</span><span class="pln">gcp</span><span class="pun">-</span><span class="lit">44776a13dea667a6</span></code><button class="button button--text button--small copy-button js-copy-button-5"><ql-icon>content_copy</ql-icon></button></pre>
+<ql-infobox>
+  Full documentation of <strong>gcloud</strong> is available on
+  <a href="https://cloud.google.com/sdk/gcloud" target="_blank">
+    Google Cloud gcloud Overview
+  </a>.
+</ql-infobox>
+
+<h3>Check project permissions</h3>
+<p>Before you begin your work on Google Cloud, you need to ensure that your project has the correct permissions within Identity and Access Management (IAM).</p>
+<ol>
+<li>
+<p>In the Google Cloud console, on the <strong>Navigation menu</strong> (<img alt="nav-menu.png" src="./Running Apache Spark jobs on Cloud Dataproc _ Qwiklabs_files/ITyhQn00xPCVZIksELAC4wax+QdPdrH2DNGLazXJKgw=">), click <strong>IAM &amp; Admin</strong> &gt; <strong>IAM</strong>.</p>
+</li>
+<li>
+<p>Confirm that the default compute Service Account <code>{project-number}-compute@developer.gserviceaccount.com</code> is present and has the <code>editor</code> role assigned. The account prefix is the project number, which you can find on <strong>Navigation menu</strong> &gt; <strong>Home</strong>.</p>
+</li>
+</ol>
+<p><img alt="check-sa.png" src="./Running Apache Spark jobs on Cloud Dataproc _ Qwiklabs_files/PaSJwLiQ6db41cptCuYECEHZtayQHGZpUJaR0fLIqTw="></p>
+<p>If the account is not present in IAM or does not have the <code>editor</code> role, follow the steps below to assign the required role.</p>
+<ul>
+<li>
+<p>In the Google Cloud console, on the <strong>Navigation menu</strong>, click <strong>Home</strong>.</p>
+</li>
+<li>
+<p>Copy the project number (e.g. <code>729328892908</code>).</p>
+</li>
+<li>
+<p>On the <strong>Navigation menu</strong>, click <strong>IAM &amp; Admin</strong> &gt; <strong>IAM</strong>.</p>
+</li>
+<li>
+<p>At the top of the <strong>IAM</strong> page, click <strong>Add</strong>.</p>
+</li>
+<li>
+<p>For <strong>New members</strong>, type:</p>
+</li>
+</ul>
+<pre><code>{project-number}-compute@developer.gserviceaccount.com
+</code><button class="button button--text button--small copy-button js-copy-button-6"><ql-icon>content_copy</ql-icon></button></pre>
+<p>Replace <code>{project-number}</code> with your project number.</p>
+<ul>
+<li>For <strong>Role</strong>, select <strong>Project</strong> &gt; <strong>Editor</strong>. Click <strong>Save</strong>.</li>
+</ul>
+<p><img alt="add-sa.png" src="./Running Apache Spark jobs on Cloud Dataproc _ Qwiklabs_files/TJdJBvKxMtTArw6djkzJinwSxZq+Ya7fwXf54ROeHUM="></p>
+
+<h2 id="step5">Part 1: Lift and Shift</h2>
+<h3>Migrate existing Spark jobs to Cloud Dataproc</h3>
+<p>You will create a new Cloud Dataproc cluster and then run an imported Jupyter notebook that uses the cluster's default local Hadoop Distributed File system (HDFS) to store source data and then process that data just as you would on any Hadoop cluster using Spark. This demonstrates how many existing analytics workloads such as Jupyter notebooks containing Spark code require no changes when they are migrated to a Cloud Dataproc environment.</p>
+<h3>Configure and start a Cloud Dataproc cluster</h3>
+<ol>
+<li>
+<p>In the GCP Console, on the <strong>Navigation menu</strong>, in the <strong>Big Data</strong> section, click <strong>Dataproc</strong>.</p>
+</li>
+<li>
+<p>Click <strong>Create Cluster</strong>.</p>
+</li>
+<li>
+<p>Enter <code>sparktodp</code> for <strong>Cluster Name</strong>.</p>
+</li>
+<li>
+<p>In the <strong>Versioning</strong> section, click <strong>Change</strong> and select <strong>2.0 (Debian 10, Hadoop 3.2, Spark 3.1)</strong>.</p>
+</li>
+</ol>
+<p>This version includes Python3 which is required for the sample code used in this lab.</p>
+<p><img alt="image_version.png" src="./Running Apache Spark jobs on Cloud Dataproc _ Qwiklabs_files/NzykmIfgxLXbXUq1pL+OlqVGuaoP1pk9zV_o14Y8LYE="></p>
+<ol start="5">
+<li>
+<p>Click <strong>Select</strong>.</p>
+</li>
+<li>
+<p>In the <strong>Components</strong> &gt; <strong>Component gateway</strong> section, select <strong>Enable component gateway</strong>.</p>
+</li>
+<li>
+<p>Under <strong>Optional components</strong>, Select <strong>Jupyter Notebook</strong>.</p>
+</li>
+<li>
+<p>Click <strong>Create</strong>.</p>
+</li>
+</ol>
+<p><img alt="create_cluster.png" src="./Running Apache Spark jobs on Cloud Dataproc _ Qwiklabs_files/WbNEZtQKOPK383S6qvvQKuSwKwsF_zu3cmnTsK_CkGU="></p>
+<p>The cluster should start in a couple of minutes. You can proceed to the next step without waiting for the Cloud Dataproc Cluster to fully deploy.</p>
+<h3>Clone the source repository for the lab</h3>
+<p>In the Cloud Shell you clone the Git repository for the lab and copy the required notebook files to the Cloud Storage bucket used by Cloud Dataproc as the home directory for Jupyter notebooks.</p>
+<ol>
+<li>
+<p>To clone the Git repository for the lab enter the following command in Cloud Shell:</p>
+</li>
+</ol>
+<pre><code class="language-bash prettyprint prettyprinted" style=""><span class="pln">git </span><span class="pun">-</span><span class="pln">C </span><span class="pun">~</span><span class="pln"> clone https</span><span class="pun">://</span><span class="pln">github</span><span class="pun">.</span><span class="pln">com</span><span class="pun">/</span><span class="typ">GoogleCloudPlatform</span><span class="pun">/</span><span class="pln">training</span><span class="pun">-</span><span class="pln">data</span><span class="pun">-</span><span class="pln">analyst
+</span></code><button class="button button--text button--small copy-button js-copy-button-7" title="" data-original-title="Copied"><ql-icon>content_copy</ql-icon></button></pre>
+<ol start="2">
+<li>
+<p>To locate the default Cloud Storage bucket used by Cloud Dataproc enter the following command in Cloud Shell:</p>
+</li>
+</ol>
+<pre><code class="language-bash prettyprint prettyprinted" style=""><span class="pln">export DP_STORAGE</span><span class="pun">=</span><span class="str">"gs://$(gcloud dataproc clusters describe sparktodp --region=us-central1 --format=json | jq -r '.config.configBucket')"</span><span class="pln">
+</span></code><button class="button button--text button--small copy-button js-copy-button-8" title="" data-original-title="Copied"><ql-icon>content_copy</ql-icon></button></pre>
+<ol start="3">
+<li>
+<p>To copy the sample notebooks into the Jupyter working folder enter the following command in Cloud Shell:</p>
+</li>
+</ol>
+<pre><code class="language-bash prettyprint prettyprinted" style=""><span class="pln">gsutil </span><span class="pun">-</span><span class="pln">m cp </span><span class="pun">~/</span><span class="pln">training</span><span class="pun">-</span><span class="pln">data</span><span class="pun">-</span><span class="pln">analyst</span><span class="pun">/</span><span class="pln">quests</span><span class="pun">/</span><span class="pln">sparktobq</span><span class="pun">/*.</span><span class="pln">ipynb $DP_STORAGE</span><span class="pun">/</span><span class="pln">notebooks</span><span class="pun">/</span><span class="pln">jupyter
+</span></code><button class="button button--text button--small copy-button js-copy-button-9" title="" data-original-title="Copied"><ql-icon>content_copy</ql-icon></button></pre>
+<h3>Log in to the Jupyter Notebook</h3>
+<p>As soon as the cluster has fully started up you can connect to the Web interfaces. Click the refresh button to check as it may be deployed fully by the time you reach this stage.</p>
+<ol>
+<li>
+<p>On the Dataproc Clusters page wait for the cluster to finish starting and then click the name of your cluster to open the <strong>Cluster details</strong> page.</p>
+</li>
+<li>
+<p>Click <strong>Web Interfaces</strong>.</p>
+</li>
+<li>
+<p>Click the <strong>Jupyter</strong> link to open a new Jupyter tab in your browser.</p>
+</li>
+</ol>
+<p>This opens the Jupyter home page. Here you can see the contents of the <code>/notebooks/jupyter</code> directory in Cloud Storage that now includes the sample Jupyter notebooks used in this lab.</p>
+<ol start="4">
+<li>
+<p>Click the <strong>01_spark.ipynb</strong> notebook to open it.</p>
+</li>
+<li>
+<p>Click <strong>Cell</strong> and then <strong>Run All</strong> to run all of the cells in the notebook.</p>
+</li>
+<li>
+<p>Page back up to the top of the notebook and follow as the notebook completes runs each cell and outputs the results below them.</p>
+</li>
+</ol>
+<p>You can now step down through the cells and examine the code as it is processed so that you can see what the notebook is doing. In particular pay attention to where the data is saved and processed from.</p>
+<p>The first code cell fetches the source data file, which is an extract from the KDD Cup competition from the Knowledge, Discovery, and Data (KDD) conference in 1999. The data relates to computer intrusion detection events.</p>
+<pre><code class="language-bash prettyprint prettyprinted" style=""><span class="pun">!</span><span class="pln">wget http</span><span class="pun">://</span><span class="pln">kdd</span><span class="pun">.</span><span class="pln">ics</span><span class="pun">.</span><span class="pln">uci</span><span class="pun">.</span><span class="pln">edu</span><span class="pun">/</span><span class="pln">databases</span><span class="pun">/</span><span class="pln">kddcup99</span><span class="pun">/</span><span class="pln">kddcup</span><span class="pun">.</span><span class="pln">data_10_percent</span><span class="pun">.</span><span class="pln">gz</span></code><button class="button button--text button--small copy-button js-copy-button-10"><ql-icon>content_copy</ql-icon></button></pre>
+<p>In the second code cell, the source data is copied to the default (local) Hadoop file system.</p>
+<pre><code class="language-bash prettyprint prettyprinted" style=""><span class="pun">!</span><span class="pln">hadoop fs </span><span class="pun">-</span><span class="pln">put kddcup</span><span class="pun">*</span><span class="pln"> </span><span class="pun">/</span></code><button class="button button--text button--small copy-button js-copy-button-11"><ql-icon>content_copy</ql-icon></button></pre>
+<p>In the third code cell, the command lists contents of the default directory in the cluster's HDFS file system.</p>
+<pre><code class="language-bash prettyprint prettyprinted" style=""><span class="pun">!</span><span class="pln">hadoop fs </span><span class="pun">-</span><span class="pln">ls </span><span class="pun">/</span></code><button class="button button--text button--small copy-button js-copy-button-12"><ql-icon>content_copy</ql-icon></button></pre>
+<h3>Reading in data</h3>
+<p>The data are gzipped CSV files. In Spark, these can be read directly using the textFile method and then parsed by splitting each row on commas.</p>
+<p>The Python Spark code starts in cell <code>In[4]</code>. In this cell Spark SQL is initialized and Spark is used to read in the source data as text and then returns the first 5 rows.</p>
+<pre><code class="language-Python prettyprint prettyprinted" style=""><span class="kwd">from</span><span class="pln"> pyspark</span><span class="pun">.</span><span class="pln">sql </span><span class="kwd">import</span><span class="pln"> </span><span class="typ">SparkSession</span><span class="pun">,</span><span class="pln"> </span><span class="typ">SQLContext</span><span class="pun">,</span><span class="pln"> </span><span class="typ">Row</span><span class="pln">
+
+spark </span><span class="pun">=</span><span class="pln"> </span><span class="typ">SparkSession</span><span class="pun">.</span><span class="pln">builder</span><span class="pun">.</span><span class="pln">appName</span><span class="pun">(</span><span class="str">"kdd"</span><span class="pun">).</span><span class="pln">getOrCreate</span><span class="pun">()</span><span class="pln">
+sc </span><span class="pun">=</span><span class="pln"> spark</span><span class="pun">.</span><span class="pln">sparkContext
+data_file </span><span class="pun">=</span><span class="pln"> </span><span class="str">"hdfs:///kddcup.data_10_percent.gz"</span><span class="pln">
+raw_rdd </span><span class="pun">=</span><span class="pln"> sc</span><span class="pun">.</span><span class="pln">textFile</span><span class="pun">(</span><span class="pln">data_file</span><span class="pun">).</span><span class="pln">cache</span><span class="pun">()</span><span class="pln">
+raw_rdd</span><span class="pun">.</span><span class="pln">take</span><span class="pun">(</span><span class="lit">5</span><span class="pun">)</span></code><button class="button button--text button--small copy-button js-copy-button-13"><ql-icon>content_copy</ql-icon></button></pre>
+<p>In cell <code>In [5]</code> each row is split, using <code>,</code> as a delimiter and parsed using a prepared inline schema in the code.</p>
+<pre><code class="language-Python prettyprint prettyprinted" style=""><span class="pln">csv_rdd </span><span class="pun">=</span><span class="pln"> raw_rdd</span><span class="pun">.</span><span class="pln">map</span><span class="pun">(</span><span class="kwd">lambda</span><span class="pln"> row</span><span class="pun">:</span><span class="pln"> row</span><span class="pun">.</span><span class="pln">split</span><span class="pun">(</span><span class="str">","</span><span class="pun">))</span><span class="pln">
+parsed_rdd </span><span class="pun">=</span><span class="pln"> csv_rdd</span><span class="pun">.</span><span class="pln">map</span><span class="pun">(</span><span class="kwd">lambda</span><span class="pln"> r</span><span class="pun">:</span><span class="pln"> </span><span class="typ">Row</span><span class="pun">(</span><span class="pln">
+    duration</span><span class="pun">=</span><span class="kwd">int</span><span class="pun">(</span><span class="pln">r</span><span class="pun">[</span><span class="lit">0</span><span class="pun">]),</span><span class="pln">
+    protocol_type</span><span class="pun">=</span><span class="pln">r</span><span class="pun">[</span><span class="lit">1</span><span class="pun">],</span><span class="pln">
+    service</span><span class="pun">=</span><span class="pln">r</span><span class="pun">[</span><span class="lit">2</span><span class="pun">],</span><span class="pln">
+    flag</span><span class="pun">=</span><span class="pln">r</span><span class="pun">[</span><span class="lit">3</span><span class="pun">],</span><span class="pln">
+    src_bytes</span><span class="pun">=</span><span class="kwd">int</span><span class="pun">(</span><span class="pln">r</span><span class="pun">[</span><span class="lit">4</span><span class="pun">]),</span><span class="pln">
+    dst_bytes</span><span class="pun">=</span><span class="kwd">int</span><span class="pun">(</span><span class="pln">r</span><span class="pun">[</span><span class="lit">5</span><span class="pun">]),</span><span class="pln">
+    wrong_fragment</span><span class="pun">=</span><span class="kwd">int</span><span class="pun">(</span><span class="pln">r</span><span class="pun">[</span><span class="lit">7</span><span class="pun">]),</span><span class="pln">
+    urgent</span><span class="pun">=</span><span class="kwd">int</span><span class="pun">(</span><span class="pln">r</span><span class="pun">[</span><span class="lit">8</span><span class="pun">]),</span><span class="pln">
+    hot</span><span class="pun">=</span><span class="kwd">int</span><span class="pun">(</span><span class="pln">r</span><span class="pun">[</span><span class="lit">9</span><span class="pun">]),</span><span class="pln">
+    num_failed_logins</span><span class="pun">=</span><span class="kwd">int</span><span class="pun">(</span><span class="pln">r</span><span class="pun">[</span><span class="lit">10</span><span class="pun">]),</span><span class="pln">
+    num_compromised</span><span class="pun">=</span><span class="kwd">int</span><span class="pun">(</span><span class="pln">r</span><span class="pun">[</span><span class="lit">12</span><span class="pun">]),</span><span class="pln">
+    su_attempted</span><span class="pun">=</span><span class="pln">r</span><span class="pun">[</span><span class="lit">14</span><span class="pun">],</span><span class="pln">
+    num_root</span><span class="pun">=</span><span class="kwd">int</span><span class="pun">(</span><span class="pln">r</span><span class="pun">[</span><span class="lit">15</span><span class="pun">]),</span><span class="pln">
+    num_file_creations</span><span class="pun">=</span><span class="kwd">int</span><span class="pun">(</span><span class="pln">r</span><span class="pun">[</span><span class="lit">16</span><span class="pun">]),</span><span class="pln">
+    label</span><span class="pun">=</span><span class="pln">r</span><span class="pun">[-</span><span class="lit">1</span><span class="pun">]</span><span class="pln">
+    </span><span class="pun">)</span><span class="pln">
+</span><span class="pun">)</span><span class="pln">
+parsed_rdd</span><span class="pun">.</span><span class="pln">take</span><span class="pun">(</span><span class="lit">5</span><span class="pun">)</span></code><button class="button button--text button--small copy-button js-copy-button-14"><ql-icon>content_copy</ql-icon></button></pre>
+<h3>Spark analysis</h3>
+<p>In cell <code>In [6]</code> a Spark SQL context is created and a Spark dataframe using that context is created using the parsed input data from the previous stage. Row data can be selected and displayed using the dataframe's <code>.show()</code> method to output a view summarizing a count of selected fields.</p>
+<pre><code class="language-Python prettyprint prettyprinted" style=""><span class="pln">sqlContext </span><span class="pun">=</span><span class="pln"> </span><span class="typ">SQLContext</span><span class="pun">(</span><span class="pln">sc</span><span class="pun">)</span><span class="pln">
+df </span><span class="pun">=</span><span class="pln"> sqlContext</span><span class="pun">.</span><span class="pln">createDataFrame</span><span class="pun">(</span><span class="pln">parsed_rdd</span><span class="pun">)</span><span class="pln">
+connections_by_protocol </span><span class="pun">=</span><span class="pln"> df</span><span class="pun">.</span><span class="pln">groupBy</span><span class="pun">(</span><span class="str">'protocol_type'</span><span class="pun">).</span><span class="pln">count</span><span class="pun">().</span><span class="pln">orderBy</span><span class="pun">(</span><span class="str">'count'</span><span class="pun">,</span><span class="pln"> ascending</span><span class="pun">=</span><span class="kwd">False</span><span class="pun">)</span><span class="pln">
+connections_by_protocol</span><span class="pun">.</span><span class="pln">show</span><span class="pun">()</span></code><button class="button button--text button--small copy-button js-copy-button-15"><ql-icon>content_copy</ql-icon></button></pre>
+<p>The <code>.show()</code> method produces an output table similar to this:</p>
+<pre><code>+-------------+------+
+|protocol_type| count|
++-------------+------+
+|         icmp|283602|
+|          tcp|190065|
+|          udp| 20354|
++-------------+------+
+</code><button class="button button--text button--small copy-button js-copy-button-16"><ql-icon>content_copy</ql-icon></button></pre>
+<p>SparkSQL can also be used to query the parsed data stored in the Dataframe. In cell <code>In [7]</code> a temporary table (<code>connections</code>) is registered that is then referenced inside the subsequent SparkSQL SQL query statement.</p>
+<pre><code class="language-SQL prettyprint prettyprinted" style=""><span class="pln">df</span><span class="pun">.</span><span class="pln">registerTempTable</span><span class="pun">(</span><span class="str">"connections"</span><span class="pun">)</span><span class="pln">
+attack_stats </span><span class="pun">=</span><span class="pln"> sqlContext</span><span class="pun">.</span><span class="pln">sql</span><span class="pun">(</span><span class="str">"""
+    SELECT
+      protocol_type,
+      CASE label
+        WHEN 'normal.' THEN 'no attack'
+        ELSE 'attack'
+      END AS state,
+      COUNT(*) as total_freq,
+      ROUND(AVG(src_bytes), 2) as mean_src_bytes,
+      ROUND(AVG(dst_bytes), 2) as mean_dst_bytes,
+      ROUND(AVG(duration), 2) as mean_duration,
+      SUM(num_failed_logins) as total_failed_logins,
+      SUM(num_compromised) as total_compromised,
+      SUM(num_file_creations) as total_file_creations,
+      SUM(su_attempted) as total_root_attempts,
+      SUM(num_root) as total_root_acceses
+    FROM connections
+    GROUP BY protocol_type, state
+    ORDER BY 3 DESC
+    """</span><span class="pun">)</span><span class="pln">
+attack_stats</span><span class="pun">.</span><span class="pln">show</span><span class="pun">()</span></code><button class="button button--text button--small copy-button js-copy-button-17"><ql-icon>content_copy</ql-icon></button></pre>
+<p>You will see output similar to this truncated example when the query has finished:</p>
+<pre><code>+-------------+---------+----------+--------------+--
+|protocol_type|    state|total_freq|mean_src_bytes|
++-------------+---------+----------+--------------+--
+|         icmp|   attack|    282314|        932.14|
+|          tcp|   attack|    113252|       9880.38|
+|          tcp|no attack|     76813|       1439.31|
+...
+...
+|          udp|   attack|      1177|          27.5|
++-------------+---------+----------+--------------+--
+</code><button class="button button--text button--small copy-button js-copy-button-18"><ql-icon>content_copy</ql-icon></button></pre>
+<p>And you can now also display this data visually using bar charts.</p>
+<p>The last cell, <code>In [8]</code> uses the <code>%matplotlib inline</code> Jupyter magic function to redirect matplotlib to render a graphic figure inline in the notebook instead of just dumping the data into a variable. This cell displays a bar chart using the <code>attack_stats</code> query from the previous step.</p>
+<pre><code class="language-Python prettyprint prettyprinted" style=""><span class="pun">%</span><span class="pln">matplotlib </span><span class="kwd">inline</span><span class="pln">
+ax </span><span class="pun">=</span><span class="pln"> attack_stats</span><span class="pun">.</span><span class="pln">toPandas</span><span class="pun">().</span><span class="pln">plot</span><span class="pun">.</span><span class="pln">bar</span><span class="pun">(</span><span class="pln">x</span><span class="pun">=</span><span class="str">'protocol_type'</span><span class="pun">,</span><span class="pln"> subplots</span><span class="pun">=</span><span class="kwd">True</span><span class="pun">,</span><span class="pln"> figsize</span><span class="pun">=(</span><span class="lit">10</span><span class="pun">,</span><span class="lit">25</span><span class="pun">))</span></code><button class="button button--text button--small copy-button js-copy-button-19"><ql-icon>content_copy</ql-icon></button></pre>
+<p>The first part of the output should look like the following chart once all cells in the notebook have run successfully. You can scroll down in your notebook to see the complete output chart.</p>
+<p><img alt="display-bar-chart.png" src="./Running Apache Spark jobs on Cloud Dataproc _ Qwiklabs_files/OzLx+tBPE20vJJnT6hGbAQ8jVH7Y+6xFNoi38erXuog="></p>
+<h2 id="step6">Part 2: Separate Compute and Storage</h2>
+<h3>Modify Spark jobs to use Cloud Storage instead of HDFS</h3>
+<p>Taking this original 'Lift &amp; Shift' sample notebook you will now create a copy that decouples the storage requirements for the job from the compute requirements. In this case, all you have to do is replace the Hadoop file system calls with Cloud Storage calls by replacing <code>hdfs://</code> storage references with <code>gs://</code> references in the code and adjusting folder names as necessary.</p>
+<p>You start by using the cloud shell to place a copy of the source data in a new Cloud Storage bucket.</p>
+<ol>
+<li>
+<p>In the Cloud Shell create a new storage bucket for your source data.</p>
+</li>
+</ol>
+<pre><code class="language-bash prettyprint prettyprinted" style=""><span class="pln">export PROJECT_ID</span><span class="pun">=</span><span class="pln">$</span><span class="pun">(</span><span class="pln">gcloud info </span><span class="pun">--</span><span class="pln">format</span><span class="pun">=</span><span class="str">'value(config.project)'</span><span class="pun">)</span><span class="pln">
+gsutil mb gs</span><span class="pun">://</span><span class="pln">$PROJECT_ID
+</span></code><button class="button button--text button--small copy-button js-copy-button-20" title="" data-original-title="Copied"><ql-icon>content_copy</ql-icon></button></pre>
+<ol start="2">
+<li>
+<p>In the Cloud Shell copy the source data into the bucket.</p>
+</li>
+</ol>
+<pre><code class="language-bash prettyprint prettyprinted" style=""><span class="pln">wget http</span><span class="pun">://</span><span class="pln">kdd</span><span class="pun">.</span><span class="pln">ics</span><span class="pun">.</span><span class="pln">uci</span><span class="pun">.</span><span class="pln">edu</span><span class="pun">/</span><span class="pln">databases</span><span class="pun">/</span><span class="pln">kddcup99</span><span class="pun">/</span><span class="pln">kddcup</span><span class="pun">.</span><span class="pln">data_10_percent</span><span class="pun">.</span><span class="pln">gz
+gsutil cp kddcup</span><span class="pun">.</span><span class="pln">data_10_percent</span><span class="pun">.</span><span class="pln">gz gs</span><span class="pun">://</span><span class="pln">$PROJECT_ID</span><span class="pun">/</span><span class="pln">
+</span></code><button class="button button--text button--small copy-button js-copy-button-21"><ql-icon>content_copy</ql-icon></button></pre>
+<p>Make sure that the last command completes and the file has been copied to your new storage bucket.</p>
+<ol start="3">
+<li>
+<p>Switch back to the <code>01_spark</code> Jupyter Notebook tab in your browser.</p>
+</li>
+<li>
+<p>Click <strong>File</strong> and then select <strong>Make a Copy</strong>.</p>
+</li>
+<li>
+<p>When the copy opens, click the <strong>01_spark-Copy1</strong> title and rename it to <code>De-couple-storage</code>.</p>
+</li>
+<li>
+<p>Open the Jupyter tab for <code>01_spark</code>.</p>
+</li>
+<li>
+<p>Click <strong>File</strong> and then <strong>Save and checkpoint</strong> to save the notebook.</p>
+</li>
+<li>
+<p>Click <strong>File</strong> and then <strong>Close and Halt</strong> to shutdown the notebook.</p>
+</li>
+</ol>
+<p>If you are prompted to confirm that you want  to close the notebook click <strong>Leave</strong> or <strong>Cancel</strong>.</p>
+<ol start="9">
+<li>Switch back to the <code>De-couple-storage</code> Jupyter Notebook tab in your browser, if necessary.</li>
+</ol>
+<p>You no longer need the cells that download and copy the data onto the cluster's internal HDFS file system so you will remove those first.</p>
+<p>To delete a cell, you click in the cell to select it and then click the <strong>cut selected cells</strong> icon (the scissors) on the notebook toolbar.</p>
+<ol start="10">
+<li>Delete the initial comment cells and the first three code cells ( <code>In [1]</code>, <code>In [2]</code>, and <code>In [3]</code>) so that the notebook now starts with the section <strong>Reading in Data</strong>.</li>
+</ol>
+<p>You will now change the code in the first cell ( still called <code>In[4]</code> unless you have rerun the notebook ) that defines the data file source location and reads in the source data. The cell currently contains the following code:</p>
+<pre><code class="language-Python prettyprint prettyprinted" style=""><span class="kwd">from</span><span class="pln"> pyspark</span><span class="pun">.</span><span class="pln">sql </span><span class="kwd">import</span><span class="pln"> </span><span class="typ">SparkSession</span><span class="pun">,</span><span class="pln"> </span><span class="typ">SQLContext</span><span class="pun">,</span><span class="pln"> </span><span class="typ">Row</span><span class="pln">
+
+spark </span><span class="pun">=</span><span class="pln"> </span><span class="typ">SparkSession</span><span class="pun">.</span><span class="pln">builder</span><span class="pun">.</span><span class="pln">appName</span><span class="pun">(</span><span class="str">"kdd"</span><span class="pun">).</span><span class="pln">getOrCreate</span><span class="pun">()</span><span class="pln">
+sc </span><span class="pun">=</span><span class="pln"> spark</span><span class="pun">.</span><span class="pln">sparkContext
+data_file </span><span class="pun">=</span><span class="pln"> </span><span class="str">"hdfs:///kddcup.data_10_percent.gz"</span><span class="pln">
+raw_rdd </span><span class="pun">=</span><span class="pln"> sc</span><span class="pun">.</span><span class="pln">textFile</span><span class="pun">(</span><span class="pln">data_file</span><span class="pun">).</span><span class="pln">cache</span><span class="pun">()</span><span class="pln">
+raw_rdd</span><span class="pun">.</span><span class="pln">take</span><span class="pun">(</span><span class="lit">5</span><span class="pun">)</span></code><button class="button button--text button--small copy-button js-copy-button-22"><ql-icon>content_copy</ql-icon></button></pre>
+<ol start="11">
+<li>
+<p>Replace the contents of cell <code>In [4]</code> with the following code. The only change here is create a variable to store a Cloud Storage bucket name and then to point the <code>data_file</code> to the bucket we used to store the source data on Cloud Storage.</p>
+</li>
+</ol>
+<pre><code class="language-Python prettyprint prettyprinted" style=""><span class="kwd">from</span><span class="pln"> pyspark</span><span class="pun">.</span><span class="pln">sql </span><span class="kwd">import</span><span class="pln"> </span><span class="typ">SparkSession</span><span class="pun">,</span><span class="pln"> </span><span class="typ">SQLContext</span><span class="pun">,</span><span class="pln"> </span><span class="typ">Row</span><span class="pln">
+
+gcs_bucket</span><span class="pun">=</span><span class="str">'[Your-Bucket-Name]'</span><span class="pln">
+spark </span><span class="pun">=</span><span class="pln"> </span><span class="typ">SparkSession</span><span class="pun">.</span><span class="pln">builder</span><span class="pun">.</span><span class="pln">appName</span><span class="pun">(</span><span class="str">"kdd"</span><span class="pun">).</span><span class="pln">getOrCreate</span><span class="pun">()</span><span class="pln">
+sc </span><span class="pun">=</span><span class="pln"> spark</span><span class="pun">.</span><span class="pln">sparkContext
+data_file </span><span class="pun">=</span><span class="pln"> </span><span class="str">"gs://"</span><span class="pun">+</span><span class="pln">gcs_bucket</span><span class="pun">+</span><span class="str">"//kddcup.data_10_percent.gz"</span><span class="pln">
+raw_rdd </span><span class="pun">=</span><span class="pln"> sc</span><span class="pun">.</span><span class="pln">textFile</span><span class="pun">(</span><span class="pln">data_file</span><span class="pun">).</span><span class="pln">cache</span><span class="pun">()</span><span class="pln">
+raw_rdd</span><span class="pun">.</span><span class="pln">take</span><span class="pun">(</span><span class="lit">5</span><span class="pun">)</span></code><button class="button button--text button--small copy-button js-copy-button-23"><ql-icon>content_copy</ql-icon></button></pre>
+<p>When you have replaced the code the first cell will look similar to the following, with your lab project ID as the bucket name:</p>
+<p><img alt="cell-bucket-name.png" src="./Running Apache Spark jobs on Cloud Dataproc _ Qwiklabs_files/6KAnevNQ3eR1UV9ngPIOWi_VQ5XsaJ8p2VgILdClKAQ="></p>
+<ol start="12">
+<li>
+<p>In the cell you just updated replace the placeholder <code>[Your-Bucket-Name]</code> with the name of the storage bucket you created in the first step of this section. You created that bucket using the Project ID as the name, which you can copy here from the Qwiklabs lab login information panel on the left of this screen. Replace all of the placeholder text, including the brackets <code>[]</code>.</p>
+</li>
+<li>
+<p>Click <strong>Cell</strong> and then <strong>Run All</strong> to run all of the cells in the notebook.</p>
+</li>
+</ol>
+<p>You will see exactly the same output as you did when the file was loaded and run from internal cluster storage. Moving the source data files to Cloud Storage only requires that you repoint your storage source reference from <code>hdfs://</code> to <code>gs://</code>.</p>
+<h2 id="step7">Part 3:  Deploy Spark Jobs</h2>
+<h3>Optimize Spark jobs to run on Job specific clusters.</h3>
+<p>You now create a standalone Python file, that can be deployed as a Cloud Dataproc Job, that will perform the same functions as this notebook. To do this you add magic commands to the Python cells in a copy of this notebook to write the cell contents out to a file. You will also add an input parameter handler to set the storage bucket location when the Python script is called to make the code more portable.</p>
+<ol>
+<li>
+<p>In the Jupyter Notebook menu click <strong>File</strong> and select <strong>Make a Copy</strong>.</p>
+</li>
+<li>
+<p>When the copy opens, click the <strong>De-couple-storage-Copy1</strong> and rename it to <code>PySpark-analysis-file</code>.</p>
+</li>
+<li>
+<p>Open the Jupyter tab for <code>Decouple-storage</code>.</p>
+</li>
+<li>
+<p>Click <strong>File</strong> and then <strong>Save and checkpoint</strong> to save the notebook.</p>
+</li>
+<li>
+<p>Click <strong>File</strong> and then <strong>Close and Halt</strong> to shutdown the notebook.</p>
+</li>
+</ol>
+<p>If you are prompted to confirm that you want  to close the notebook click <strong>Leave</strong> or <strong>Cancel</strong>.</p>
+<ol start="6">
+<li>
+<p>Switch back to the <code>PySpark-analysis-file</code> Jupyter Notebook tab in your browser, if necessary.</p>
+</li>
+<li>
+<p>Click the first cell at the top of the notebook.</p>
+</li>
+<li>
+<p>Click <strong>Insert</strong> and select <strong>Insert Cell Above</strong>.</p>
+</li>
+<li>
+<p>Paste the following library import and parameter handling code into this new first code cell:</p>
+</li>
+</ol>
+<pre><code class="language-Python prettyprint prettyprinted" style=""><span class="pun">%%</span><span class="pln">writefile spark_analysis</span><span class="pun">.</span><span class="pln">py
+
+</span><span class="kwd">import</span><span class="pln"> matplotlib
+matplotlib</span><span class="pun">.</span><span class="kwd">use</span><span class="pun">(</span><span class="str">'agg'</span><span class="pun">)</span><span class="pln">
+
+</span><span class="kwd">import</span><span class="pln"> argparse
+parser </span><span class="pun">=</span><span class="pln"> argparse</span><span class="pun">.</span><span class="typ">ArgumentParser</span><span class="pun">()</span><span class="pln">
+parser</span><span class="pun">.</span><span class="pln">add_argument</span><span class="pun">(</span><span class="str">"--bucket"</span><span class="pun">,</span><span class="pln"> help</span><span class="pun">=</span><span class="str">"bucket for input and output"</span><span class="pun">)</span><span class="pln">
+args </span><span class="pun">=</span><span class="pln"> parser</span><span class="pun">.</span><span class="pln">parse_args</span><span class="pun">()</span><span class="pln">
+
+BUCKET </span><span class="pun">=</span><span class="pln"> args</span><span class="pun">.</span><span class="pln">bucket</span></code><button class="button button--text button--small copy-button js-copy-button-24"><ql-icon>content_copy</ql-icon></button></pre>
+<p>The <code>%%writefile spark_analysis.py</code> Jupyter magic command creates a new output file to contain your standalone python script. You will add a variation of this to the remaining cells to append the contents of each cell to the standalone script file.</p>
+<p>This code also imports the <code>matplotlib</code> module and explicitly sets the default plotting backend via <code>matplotlib.use('agg')</code> so that the plotting code runs outside of a Jupyter notebook.</p>
+<ol start="10">
+<li>
+<p>For the remaining cells insert <code>%%writefile -a spark_analysis.py</code> at the start of each Python code cell. These are the five cells labelled <strong>In [x]</strong>.</p>
+</li>
+</ol>
+<pre><code class="language-Python prettyprint prettyprinted" style=""><span class="pun">%%</span><span class="pln">writefile </span><span class="pun">-</span><span class="pln">a spark_analysis</span><span class="pun">.</span><span class="pln">py</span></code><button class="button button--text button--small copy-button js-copy-button-25" title="" data-original-title="Copied"><ql-icon>content_copy</ql-icon></button></pre>
+<p>For example the next cell should now look as follows.</p>
+<pre><code class="language-Python prettyprint prettyprinted" style=""><span class="pun">%%</span><span class="pln">writefile </span><span class="pun">-</span><span class="pln">a spark_analysis</span><span class="pun">.</span><span class="pln">py
+
+</span><span class="kwd">from</span><span class="pln"> pyspark</span><span class="pun">.</span><span class="pln">sql </span><span class="kwd">import</span><span class="pln"> </span><span class="typ">SparkSession</span><span class="pun">,</span><span class="pln"> </span><span class="typ">SQLContext</span><span class="pun">,</span><span class="pln"> </span><span class="typ">Row</span><span class="pln">
+
+spark </span><span class="pun">=</span><span class="pln"> </span><span class="typ">SparkSession</span><span class="pun">.</span><span class="pln">builder</span><span class="pun">.</span><span class="pln">appName</span><span class="pun">(</span><span class="str">"kdd"</span><span class="pun">).</span><span class="pln">getOrCreate</span><span class="pun">()</span><span class="pln">
+sc </span><span class="pun">=</span><span class="pln"> spark</span><span class="pun">.</span><span class="pln">sparkContext
+data_file </span><span class="pun">=</span><span class="pln"> </span><span class="str">"gs://{}/kddcup.data_10_percent.gz"</span><span class="pun">.</span><span class="pln">format</span><span class="pun">(</span><span class="pln">BUCKET</span><span class="pun">)</span><span class="pln">
+raw_rdd </span><span class="pun">=</span><span class="pln"> sc</span><span class="pun">.</span><span class="pln">textFile</span><span class="pun">(</span><span class="pln">data_file</span><span class="pun">).</span><span class="pln">cache</span><span class="pun">()</span><span class="pln">
+</span><span class="com">#raw_rdd.take(5)</span></code><button class="button button--text button--small copy-button js-copy-button-26"><ql-icon>content_copy</ql-icon></button></pre>
+<ol start="11">
+<li>
+<p>Repeat this step, inserting <code>%%writefile -a spark_analysis.py</code> at the start of each code cell until you reach the end.</p>
+</li>
+<li>
+<p>In the last cell, where the Pandas bar chart is plotted remove the <code>%matplotlib inline</code> magic command.</p>
+</li>
+</ol>
+<aside class="warning"><p><strong>Note: </strong>You must remove this inline matplotlib Jupyter magic directive or your script will fail when you run it. </p>
+</aside>
+<ol start="13">
+<li>
+<p>Make sure you have selected the last code cell in the notebook then, in the menu bar, click <strong>Insert</strong> and select <strong>Insert Cell Below</strong>.</p>
+</li>
+<li>
+<p>Paste the following code into the new cell.</p>
+</li>
+</ol>
+<pre><code class="language-Python prettyprint prettyprinted" style=""><span class="pun">%%</span><span class="pln">writefile </span><span class="pun">-</span><span class="pln">a spark_analysis</span><span class="pun">.</span><span class="pln">py
+
+ax</span><span class="pun">[</span><span class="lit">0</span><span class="pun">].</span><span class="pln">get_figure</span><span class="pun">().</span><span class="pln">savefig</span><span class="pun">(</span><span class="str">'report.png'</span><span class="pun">);</span><span class="pln">
+</span></code><button class="button button--text button--small copy-button js-copy-button-27"><ql-icon>content_copy</ql-icon></button></pre>
+<ol start="15">
+<li>
+<p>Add another new cell at the end of the notebook and paste in the following:</p>
+</li>
+</ol>
+<pre><code class="language-Python prettyprint prettyprinted" style=""><span class="pun">%%</span><span class="pln">writefile </span><span class="pun">-</span><span class="pln">a spark_analysis</span><span class="pun">.</span><span class="pln">py
+
+</span><span class="kwd">import</span><span class="pln"> google</span><span class="pun">.</span><span class="pln">cloud</span><span class="pun">.</span><span class="pln">storage </span><span class="kwd">as</span><span class="pln"> gcs
+bucket </span><span class="pun">=</span><span class="pln"> gcs</span><span class="pun">.</span><span class="typ">Client</span><span class="pun">().</span><span class="pln">get_bucket</span><span class="pun">(</span><span class="pln">BUCKET</span><span class="pun">)</span><span class="pln">
+</span><span class="kwd">for</span><span class="pln"> blob </span><span class="kwd">in</span><span class="pln"> bucket</span><span class="pun">.</span><span class="pln">list_blobs</span><span class="pun">(</span><span class="pln">prefix</span><span class="pun">=</span><span class="str">'sparktodp/'</span><span class="pun">):</span><span class="pln">
+    blob</span><span class="pun">.</span><span class="kwd">delete</span><span class="pun">()</span><span class="pln">
+bucket</span><span class="pun">.</span><span class="pln">blob</span><span class="pun">(</span><span class="str">'sparktodp/report.png'</span><span class="pun">).</span><span class="pln">upload_from_filename</span><span class="pun">(</span><span class="str">'report.png'</span><span class="pun">)</span></code><button class="button button--text button--small copy-button js-copy-button-28" title="" data-original-title="Copied"><ql-icon>content_copy</ql-icon></button></pre>
+<ol start="16">
+<li>
+<p>Add a new cell at the end of the notebook and paste in the following:</p>
+</li>
+</ol>
+<pre><code class="language-Python prettyprint prettyprinted" style=""><span class="pun">%%</span><span class="pln">writefile </span><span class="pun">-</span><span class="pln">a spark_analysis</span><span class="pun">.</span><span class="pln">py
+
+connections_by_protocol</span><span class="pun">.</span><span class="pln">write</span><span class="pun">.</span><span class="pln">format</span><span class="pun">(</span><span class="str">"csv"</span><span class="pun">).</span><span class="pln">mode</span><span class="pun">(</span><span class="str">"overwrite"</span><span class="pun">).</span><span class="pln">save</span><span class="pun">(</span><span class="pln">
+    </span><span class="str">"gs://{}/sparktodp/connections_by_protocol"</span><span class="pun">.</span><span class="pln">format</span><span class="pun">(</span><span class="pln">BUCKET</span><span class="pun">))</span></code><button class="button button--text button--small copy-button js-copy-button-29" title="" data-original-title="Copied"><ql-icon>content_copy</ql-icon></button></pre>
+<h3>Test Automation</h3>
+<p>You now test that the PySpark code runs successfully as a file by calling the local copy from inside the notebook, passing in a parameter to identify the storage bucket you created earlier that stores the input data for this job. The same bucket will be used to store the report data files produced by the script.</p>
+<ol>
+<li>
+<p>In the <code>PySpark-analysis-file</code> notebook add a new cell at the end of the notebook and paste in the following:</p>
+</li>
+</ol>
+<pre><code class="language-Python prettyprint prettyprinted" style=""><span class="pln">BUCKET_list </span><span class="pun">=</span><span class="pln"> </span><span class="pun">!</span><span class="pln">gcloud info </span><span class="pun">--</span><span class="pln">format</span><span class="pun">=</span><span class="str">'value(config.project)'</span><span class="pln">
+BUCKET</span><span class="pun">=</span><span class="pln">BUCKET_list</span><span class="pun">[</span><span class="lit">0</span><span class="pun">]</span><span class="pln">
+</span><span class="kwd">print</span><span class="pun">(</span><span class="str">'Writing to {}'</span><span class="pun">.</span><span class="pln">format</span><span class="pun">(</span><span class="pln">BUCKET</span><span class="pun">))</span><span class="pln">
+</span><span class="pun">!</span><span class="str">/opt/</span><span class="pln">conda</span><span class="pun">/</span><span class="pln">miniconda3</span><span class="pun">/</span><span class="pln">bin</span><span class="pun">/</span><span class="pln">python spark_analysis</span><span class="pun">.</span><span class="pln">py </span><span class="pun">--</span><span class="pln">bucket</span><span class="pun">=</span><span class="pln">$BUCKET
+</span></code><button class="button button--text button--small copy-button js-copy-button-30" title="" data-original-title="Copied"><ql-icon>content_copy</ql-icon></button></pre>
+<p>This code assumes that you have followed the earlier instructions and created a Cloud Storage Bucket using your lab Project ID as the Storage Bucket name. If you used a different name modify this code to set the <code>BUCKET</code> variable to the name you used.</p>
+<ol start="2">
+<li>
+<p>Add a new cell at the end of the notebook and paste in the following:</p>
+</li>
+</ol>
+<pre><code class="language-bash prettyprint prettyprinted" style=""><span class="pun">!</span><span class="pln">gsutil ls gs</span><span class="pun">://</span><span class="pln">$BUCKET</span><span class="pun">/</span><span class="pln">sparktodp</span><span class="pun">/**</span><span class="pln">
+</span></code><button class="button button--text button--small copy-button js-copy-button-31" title="" data-original-title="Copied"><ql-icon>content_copy</ql-icon></button></pre>
+<p>This lists the script output files that have been saved to your Cloud Storage bucket.</p>
+<ol start="3">
+<li>
+<p>To save a copy of the Python file to persistent storage, add a new cell and paste in the following:</p>
+</li>
+</ol>
+<pre><code class="language-Python prettyprint prettyprinted" style=""><span class="pun">!</span><span class="pln">gsutil cp spark_analysis</span><span class="pun">.</span><span class="pln">py gs</span><span class="pun">:</span><span class="com">//$BUCKET/sparktodp/spark_analysis.py</span><span class="pln">
+</span></code><button class="button button--text button--small copy-button js-copy-button-32" title="" data-original-title="Copied"><ql-icon>content_copy</ql-icon></button></pre>
+<ol start="4">
+<li>Click <strong>Cell</strong> and then <strong>Run All</strong> to run all of the cells in the notebook.</li>
+</ol>
+<p>If the notebook successfully creates and runs the Python file you should see output similar to the following for the last two cells. This indicates that the script has run to completion saving the output to the Cloud Storage bucket you created earlier in the lab.</p>
+<p><img alt="output.png" src="./Running Apache Spark jobs on Cloud Dataproc _ Qwiklabs_files/OsHsS7LQZteKglcq3Pm+XSn4kZxdRJPE+YxNxmRgNvA="></p>
+<aside class="note"><p><strong>Note: </strong>The most likely source of an error at this stage is that you did not remove the matplotlib directive in <strong>In [7]</strong>. Recheck that you have modified all of the cells as per the instructions above, and have not skipped any steps.</p>
+</aside>
+<h3>Run the Analysis Job from Cloud Shell.</h3>
+<ol>
+<li>
+<p>Switch to your Cloud Shell and copy the Python script from Cloud Storage so you can run it as a Cloud Dataproc Job.</p>
+</li>
+</ol>
+<pre><code class="language-bash prettyprint prettyprinted" style=""><span class="pln">gsutil cp gs</span><span class="pun">://</span><span class="pln">$PROJECT_ID</span><span class="pun">/</span><span class="pln">sparktodp</span><span class="pun">/</span><span class="pln">spark_analysis</span><span class="pun">.</span><span class="pln">py spark_analysis</span><span class="pun">.</span><span class="pln">py</span></code><button class="button button--text button--small copy-button js-copy-button-33" title="" data-original-title="Copied"><ql-icon>content_copy</ql-icon></button></pre>
+<ol start="2">
+<li>
+<p>Create a launch script.</p>
+</li>
+</ol>
+<pre><code class="language-bash prettyprint prettyprinted" style=""><span class="pln">nano submit_onejob</span><span class="pun">.</span><span class="pln">sh</span></code><button class="button button--text button--small copy-button js-copy-button-34" title="" data-original-title="Copied"><ql-icon>content_copy</ql-icon></button></pre>
+<ol start="3">
+<li>
+<p>Paste the following into the script:</p>
+</li>
+</ol>
+<pre><code class="language-bash prettyprint prettyprinted" style=""><span class="com">#!/bin/bash</span><span class="pln">
+gcloud dataproc jobs submit pyspark \
+       </span><span class="pun">--</span><span class="pln">cluster sparktodp \
+       </span><span class="pun">--</span><span class="pln">region us</span><span class="pun">-</span><span class="pln">central1 \
+       spark_analysis</span><span class="pun">.</span><span class="pln">py \
+       </span><span class="pun">--</span><span class="pln"> </span><span class="pun">--</span><span class="pln">bucket</span><span class="pun">=</span><span class="pln">$1</span></code><button class="button button--text button--small copy-button js-copy-button-35" title="" data-original-title="Copied"><ql-icon>content_copy</ql-icon></button></pre>
+<ol start="4">
+<li>
+<p>Press CTRL+X then Y and Enter key to exit and save.</p>
+</li>
+<li>
+<p>Make the script executable:</p>
+</li>
+</ol>
+<pre><code class="language-bash prettyprint prettyprinted" style=""><span class="pln">chmod </span><span class="pun">+</span><span class="pln">x submit_onejob</span><span class="pun">.</span><span class="pln">sh</span></code><button class="button button--text button--small copy-button js-copy-button-36" title="" data-original-title="Copied"><ql-icon>content_copy</ql-icon></button></pre>
+<ol start="6">
+<li>
+<p>Launch the PySpark Analysis job:</p>
+</li>
+</ol>
+<pre><code class="language-bash prettyprint prettyprinted" style=""><span class="pun">./</span><span class="pln">submit_onejob</span><span class="pun">.</span><span class="pln">sh $PROJECT_ID</span></code><button class="button button--text button--small copy-button js-copy-button-37" title="" data-original-title="Copied"><ql-icon>content_copy</ql-icon></button></pre>
+<ol start="7">
+<li>
+<p>In the Cloud Console tab navigate to the <strong>Dataproc</strong> &gt; <strong>Clusters</strong> page if it is not already open.</p>
+</li>
+<li>
+<p>Click <strong>Jobs</strong>.</p>
+</li>
+<li>
+<p>Click the name of the job that is listed. You can monitor progress here as well as from the Cloud shell. Wait for the Job to complete successfully.</p>
+</li>
+<li>
+<p>Navigate to your storage bucket and note that the output report, <code>/sparktodp/report.png</code> has an updated time-stamp indicating that the stand-alone job has completed successfully.</p>
+</li>
+</ol>
+<p>The storage bucket used by this Job for input and output data storage is the bucket that is used just the Project ID as the name.</p>
+<ol start="11">
+<li>
+<p>Navigate back to the <strong>Dataproc</strong> &gt; <strong>Clusters</strong> page.</p>
+</li>
+<li>
+<p>Select the <strong>sparktodp</strong> cluster and click <strong>Delete</strong>. You don't need it any more.</p>
+</li>
+<li>
+<p>Click <strong>CONFIRM</strong>.</p>
+</li>
+<li>
+<p>Close both <strong>Jupyter</strong> tabs in your browser.</p>
+</li>
+</ol>
+<h2 id="step8">End your lab</h2>
+<p>When you have completed your lab, click <strong>End Lab</strong>. Qwiklabs removes the resources you’ve used and cleans the account for you.</p>
+<p>You will be given an opportunity to rate the lab experience. Select the applicable number of stars, type a comment, and then click <strong>Submit</strong>.</p>
+<p>The number of stars indicates the following:</p>
+<ul>
+<li>1 star = Very dissatisfied</li>
+<li>2 stars = Dissatisfied</li>
+<li>3 stars = Neutral</li>
+<li>4 stars = Satisfied</li>
+<li>5 stars = Very satisfied</li>
+</ul>
+<p>You can close the dialog box if you don't want to provide feedback.</p>
+<p>For feedback, suggestions, or corrections, please use the <strong>Support</strong> tab.</p>
+
+<p>Copyright 2020 Google LLC All rights reserved. Google and the Google logo are trademarks of Google LLC. All other company and product names may be trademarks of the respective companies with which they are associated.</p>
+
+
+
+</div>
+</div>
+
+
+<div class="hidden js-end-lab-button-container lab-content__end-lab-button">
+<ql-lab-control-button class="js-end-lab-button" running=""></ql-lab-control-button>
+</div>
+<!-- / TODO: Move recommendations into the end lab modal -->
+</ql-drawer-content>
+<ql-drawer end="" id="outline-drawer" open="" slot="drawer" width="320" style="width: 320px;">
+<div class="js-lab-content-outline lab-content__outline">
+<a href="https://googlecoursera.qwiklabs.com/focuses/14535056?parent=lti_session#step1" class="">Overview</a><a href="https://googlecoursera.qwiklabs.com/focuses/14535056?parent=lti_session#step2" class="">Objectives</a><a href="https://googlecoursera.qwiklabs.com/focuses/14535056?parent=lti_session#step3" class="">Scenario</a><a href="https://googlecoursera.qwiklabs.com/focuses/14535056?parent=lti_session#step4" class="">Lab setup</a><a href="https://googlecoursera.qwiklabs.com/focuses/14535056?parent=lti_session#step5" class="">Part 1: Lift and Shift</a><a href="https://googlecoursera.qwiklabs.com/focuses/14535056?parent=lti_session#step6" class="">Part 2: Separate Compute and Storage</a><a href="https://googlecoursera.qwiklabs.com/focuses/14535056?parent=lti_session#step7" class="is-active">Part 3:  Deploy Spark Jobs</a><a href="https://googlecoursera.qwiklabs.com/focuses/14535056?parent=lti_session#step8" class="">End your lab</a>
+</div>
+</ql-drawer>
+</ql-drawer-container>
+</ql-drawer-content>
+</ql-drawer-container>
+<div class="lab-introduction js-lab-introduction is-hidden">
+<div class="lab-introduction__inner">
+<h1 class="headline-1">Welcome to Your First Lab!</h1>
+<ql-icon-button class="js-skip-button">close</ql-icon-button>
+<div class="lab-introduction__video">
+<iframe allow="autoplay; encrypted-media" allowfullscreen="" frameborder="0" id="lab-introduction" src="./Running Apache Spark jobs on Cloud Dataproc _ Qwiklabs_files/yF7EDXKTmoQ.html" data-gtm-yt-inspected-1_25="true"></iframe>
+</div>
+<a class="js-skip-button button button--outline">Skip this video</a>
+</div>
+</div>
+
+
+
+</div>
+</main>
+
+
+<div class="modal fade" id="lab-details-modal">
+<div class="modal-container">
+<div class="mdl-shadow--24dp modal-content">
+<div class="modal-body">
+<p class="l-mbm">
+This lab focuses on running Apache Spark jobs on Cloud Dataproc.
+</p>
+<p class="small-label l-mbs">
+<strong>
+Duration:
+</strong>
+0m setup
+·
+90m access
+·
+90m completion
+</p>
+<p class="small-label l-mbs">
+<span><strong>Levels: </strong>advanced</span>
+</p>
+<p class="small-label">
+<strong>
+Permalink:
+</strong>
+<a href="https://googlecoursera.qwiklabs.com/catalog_lab/2120">https://googlecoursera.qwiklabs.com/catalog_lab/2120</a>
+</p>
+</div>
+<div class="modal-actions">
+<a class="button button--text" data-dismiss="modal">
+Got It
+</a>
+</div>
+
+
+</div>
+</div>
+<iframe class="l-ie-iframe-fix" data-gtm-yt-inspected-1_25="true" src="./Running Apache Spark jobs on Cloud Dataproc _ Qwiklabs_files/saved_resource(4).html"></iframe>
+</div>
+<div class="modal fade" id="lab-review-modal">
+<div class="modal-container">
+<div class="mdl-shadow--24dp modal-content">
+<form class="simple_form js-lab-review-form" id="edit_lab_review_10158862" action="https://googlecoursera.qwiklabs.com/lab_reviews/10158862" accept-charset="UTF-8" data-remote="true" method="post"><input name="utf8" type="hidden" value="✓"><input type="hidden" name="_method" value="patch"><div class="modal-body">
+<p class="label">
+How satisfied are you with this lab?*
+</p>
+<div class="rateit js-rateit" data-rateit-max="5" data-rateit-min="0" data-rateit-resetable="false" data-rateit-step="1" data-rateit-value="5"><div class="rateit-reset" style="display: none;"></div><div class="rateit-range" style="width: 80px; height: 16px;"><div class="rateit-selected" style="height: 16px; width: 80px;"></div><div class="rateit-hover" style="height:16px"></div></div></div>
+<div class="l-mtm">
+
+<div class="control-group hidden lab_review_user_id"><div class="controls"><input class="hidden" type="hidden" value="4139526" name="lab_review[user_id]" id="lab_review_user_id"></div></div>
+<div class="control-group hidden lab_review_classroom_id"><div class="controls"><input class="hidden" type="hidden" name="lab_review[classroom_id]" id="lab_review_classroom_id"></div></div>
+<div class="control-group hidden lab_review_lab_id"><div class="controls"><input class="hidden" type="hidden" value="2120" name="lab_review[lab_id]" id="lab_review_lab_id"></div></div>
+<div class="control-group hidden lab_review_focus_id"><div class="controls"><input class="hidden" type="hidden" name="lab_review[focus_id]" id="lab_review_focus_id"></div></div>
+<div class="control-group hidden lab_review_rating"><div class="controls"><input class="hidden js-rating-input" type="hidden" value="2" name="lab_review[rating]" id="lab_review_rating"></div></div>
+<div class="control-group text optional lab_review_comment"><label class="text optional control-label" for="lab_review_comment">Comment</label><div class="controls"><textarea class="text optional" name="lab_review[comment]" id="lab_review_comment">Awesome</textarea></div></div>
+</div>
+</div>
+<div class="modal-actions">
+<a class="button button--text" data-dismiss="modal">
+Cancel
+</a>
+<input type="submit" name="commit" value="Submit" disabled="disabled" id="submit" data-disabled="false" class="button" data-disable-with="Submit">
+</div>
+</form>
+
+</div>
+</div>
+<iframe class="l-ie-iframe-fix" data-gtm-yt-inspected-1_25="true" src="./Running Apache Spark jobs on Cloud Dataproc _ Qwiklabs_files/saved_resource(5).html"></iframe>
+</div>
+
+
+<script>
+  $( function() {
+    ql.initMaterialInputs();
+    initChosen();
+    initSearch();
+    initTabs();
+    ql.list.init();
+    ql.favoriting.init();
+    ql.header.myAccount.init();
+    initTooltips();
+    ql.autocomplete.init();
+    ql.modals.init();
+    ql.toggleButtons.init();
+    ql.analytics.init();
+    ql.labControlPanel.addRecaptchaErrorHandler();
+  initLabContent();
+  ql.labOutline.links.init();
+  initLabReviewModal();
+  ql.labAssessment.init();
+  ql.labIntroduction.init( true );
+  ql.labData.init();
+  initLabTranslations( {"are_you_sure":"All done? If you end this lab, you will lose all your work. You may not be able to restart the lab if there is a quota limit. Are you sure you want to end this lab?\n","in_progress":"*In Progress*","ending":"*Ending*","starting":"*Starting, please wait*","end_concurrent_labs":"Sorry, you can only run one lab at a time. To start this lab, please confirm that you want all of your existing labs to end.\n","copied":"Copied","no_resource":"Error retrieving resource.","no_support":"No Support","mac_press":"Press ⌘-C to copy","thanks_review":"Thanks for reviewing this lab.","windows_press":"Press Ctrl-C to copy","days":"days"} );
+  ql.labRun.init();
+  ql.chat.init();
+  ql.initHeader();
+  ql.navigation.init();
+  ql.navPanel.init();
+  ql.navigation.init();
+  
+  });
+</script>
+
+
+
+
+<div><div class="grecaptcha-badge" data-style="bottomright" style="width: 256px; height: 60px; display: block; transition: right 0.3s ease 0s; position: fixed; bottom: 14px; right: -186px; box-shadow: gray 0px 0px 5px; border-radius: 2px; overflow: hidden;"><div class="grecaptcha-logo"><iframe src="./Running Apache Spark jobs on Cloud Dataproc _ Qwiklabs_files/anchor(2).html" width="256" height="60" role="presentation" name="a-s9zarhqyl05a" frameborder="0" scrolling="no" sandbox="allow-forms allow-popups allow-same-origin allow-scripts allow-top-navigation allow-modals allow-popups-to-escape-sandbox" data-gtm-yt-inspected-1_25="true"></iframe></div><div class="grecaptcha-error"></div><textarea id="g-recaptcha-response-100000" name="g-recaptcha-response" class="g-recaptcha-response" style="width: 250px; height: 40px; border: 1px solid rgb(193, 193, 193); margin: 10px 25px; padding: 0px; resize: none; display: none;"></textarea></div></div><iframe data-product="web_widget" title="No content" tabindex="-1" aria-hidden="true" src="./Running Apache Spark jobs on Cloud Dataproc _ Qwiklabs_files/saved_resource(6).html" data-gtm-yt-inspected-1_25="true" style="width: 0px; height: 0px; border: 0px; position: absolute; top: -9999px;"></iframe><div><iframe title="Opens a widget where you can chat to one of our agents" id="launcher" tabindex="-1" data-gtm-yt-inspected-1_25="true" style="width: 107px; height: 50px; padding: 0px; margin: 10px 20px; position: fixed; bottom: 30px; overflow: visible; opacity: 0; border: 0px; z-index: 999998; transition-duration: 250ms; transition-timing-function: cubic-bezier(0.645, 0.045, 0.355, 1); transition-property: opacity, top, bottom; top: -9999px; visibility: hidden;" src="./Running Apache Spark jobs on Cloud Dataproc _ Qwiklabs_files/saved_resource(7).html"></iframe><iframe title="Find more information here" id="webWidget" tabindex="-1" data-gtm-yt-inspected-1_25="true" style="width: 374px; max-height: calc(100vh - 32px); height: 572px; position: fixed; opacity: 0; border: 0px; transition-duration: 250ms; transition-timing-function: cubic-bezier(0.645, 0.045, 0.355, 1); transition-property: opacity, top, bottom; top: -9999px; visibility: hidden; z-index: 999999;" src="./Running Apache Spark jobs on Cloud Dataproc _ Qwiklabs_files/saved_resource(8).html"></iframe></div><div style="background-color: rgb(255, 255, 255); border: 1px solid rgb(204, 204, 204); box-shadow: rgba(0, 0, 0, 0.2) 2px 2px 3px; position: absolute; transition: visibility 0s linear 0.3s, opacity 0.3s linear 0s; opacity: 0; visibility: hidden; z-index: 2000000000; left: 0px; top: -10000px;"><div style="width: 100%; height: 100%; position: fixed; top: 0px; left: 0px; z-index: 2000000000; background-color: rgb(255, 255, 255); opacity: 0.05;"></div><div class="g-recaptcha-bubble-arrow" style="border: 11px solid transparent; width: 0px; height: 0px; position: absolute; pointer-events: none; margin-top: -11px; z-index: 2000000000;"></div><div class="g-recaptcha-bubble-arrow" style="border: 10px solid transparent; width: 0px; height: 0px; position: absolute; pointer-events: none; margin-top: -10px; z-index: 2000000000;"></div><div style="z-index: 2000000000; position: relative;"><iframe title="recaptcha challenge" src="./Running Apache Spark jobs on Cloud Dataproc _ Qwiklabs_files/bframe.html" name="c-tnj7j7bmztoo" frameborder="0" scrolling="no" sandbox="allow-forms allow-popups allow-same-origin allow-scripts allow-top-navigation allow-modals allow-popups-to-escape-sandbox" data-gtm-yt-inspected-1_25="true" style="width: 100%; height: 100%;"></iframe></div></div></body></html>
